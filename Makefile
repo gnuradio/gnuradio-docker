@@ -1,4 +1,7 @@
-all:  cpp-minimal python-minimal
+all:  stamps cpp-minimal python-minimal
+
+stamps:
+	mkdir -p stamps
 
 stamps/cppdeps.stamp: gnuradio-cppdeps/Dockerfile
 	docker build -f gnuradio-cppdeps/Dockerfile -t gnuradio/gnuradio-cppdeps gnuradio-cppdeps
