@@ -1,6 +1,0 @@
-export PATH=/usr/lib/ccache:$PATH:$PREFIX/bin
-export LD_LOAD_LIBRARY=$PREFIX/lib
-export LD_LIBRARY_PATH=$PREFIX/lib
-export PYTHONPATH=$PREFIX/lib/python2.7/dist-packages:$PREFIX/lib/python2.7/site-packages
-export PKG_CONFIG_PATH=$PREFIX/lib/pkgconfig
-
