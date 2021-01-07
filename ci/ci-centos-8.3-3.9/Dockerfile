@@ -78,6 +78,6 @@ RUN dnf clean all
 
 # Install VOLK
 RUN mkdir -p /src/build
-RUN git clone --recursive https://github.com/gnuradio/volk.git /src/volk --branch v2.3.0 --depth 1
+RUN git clone --recursive https://github.com/gnuradio/volk.git /src/volk --branch v2.4.1 --depth 1
 RUN cd /src/build && cmake -DCMAKE_BUILD_TYPE=Release ../volk/ && make && make install && cd / && rm -rf /src/
-
+RUN pip3 install --upgrade mako

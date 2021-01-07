@@ -1,7 +1,7 @@
-FROM ubuntu:18.04
+FROM debian:buster
 MAINTAINER Martin Braun <martin@gnuradio.org>
 
-ENV security_updates_as_of 2020-12-18
+ENV security_updates_as_of 2021-01-06
 
 # Prepare distribution
 RUN apt-get update -q \
@@ -11,10 +11,10 @@ RUN apt-get update -q \
 RUN DEBIAN_FRONTEND=noninteractive \
        apt-get install -qy \
          libasound2 \
-         libboost-date-time1.65.1 \
-         libboost-filesystem1.65.1 \
-         libboost-program-options1.65.1 \
-         libboost-thread1.65.1 \
+         libboost-date-time1.67.0 \
+         libboost-filesystem1.67.0 \
+         libboost-program-options1.67.0 \
+         libboost-thread1.67.0 \
          libcomedi0 \
          libfftw3-bin \
          libgmp10 \
@@ -24,10 +24,11 @@ RUN DEBIAN_FRONTEND=noninteractive \
          liblog4cpp5v5 \
          libpangocairo-1.0-0 \
          libportaudio2 \
-         libqwt6abi1 \
-         libsdl-image1.2 \
+         libqwt-qt5-6 \
          libsndfile1-dev \
-         libuhd003.010.003 \
+         libsdl-image1.2 \
+         libthrift-dev \
+         libuhd-dev \
          libusb-1.0-0 \
          libzmq5 \
          libpango-1.0-0 \
@@ -35,13 +36,13 @@ RUN DEBIAN_FRONTEND=noninteractive \
          gir1.2-pango-1.0 \
          pkg-config \
          thrift-compiler \
+         libunwind-dev \
          --no-install-recommends \
     && apt-get clean
 
 # Py3 deps
 RUN DEBIAN_FRONTEND=noninteractive \
        apt-get install -qy \
-         pybind11-dev \
          python3-click \
          python3-click-plugins \
          python3-mako \
@@ -52,18 +53,14 @@ RUN DEBIAN_FRONTEND=noninteractive \
          python3-numpy \
          python3-opengl \
          python3-pyqt5 \
-         python-wxgtk3.0 \
          python3-yaml \
          python3-zmq \
-         python-six \
          python3-six \
          --no-install-recommends \
     && apt-get clean
 
 # Build deps
-RUN mv /sbin/sysctl /sbin/sysctl.orig \
-    && ln -sf /bin/true /sbin/sysctl \
-    && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y \
        --no-install-recommends \
        build-essential \
        ccache \
@@ -82,29 +79,16 @@ RUN mv /sbin/sysctl /sbin/sysctl.orig \
        libgmp-dev \
        libgsl0-dev \
        liblog4cpp5-dev \
-       libqt4-dev \
-       libqwt-dev \
-       libqwt5-qt4 \
        libqwt-qt5-dev \
        qtbase5-dev \
        libsdl1.2-dev \
        libuhd-dev \
        libusb-1.0-0-dev \
        libzmq3-dev \
-       libgsm1-dev \
-       libcodec2-dev \
        portaudio19-dev \
-       pyqt4-dev-tools \
        pyqt5-dev-tools \
-       python-cheetah \
-       python-sphinx \
        doxygen \
-       doxygen-latex \
-       swig \
-    && rm -f /sbin/sysctl \
-    && ln -s /usr/bin/ccache /usr/lib/ccache/cc \
-    && ln -s /usr/bin/ccache /usr/lib/ccache/c++ \
-    && mv /sbin/sysctl.orig /sbin/sysctl
+       doxygen-latex
 
 # Testing deps
 RUN DEBIAN_FRONTEND=noninteractive \
