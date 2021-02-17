@@ -11,7 +11,9 @@ RUN dnf --enablerepo=epel check-update -y; dnf install -y \
         make \
         gcc \
         gcc-c++ \
-        xz
+        xz \
+        ccache \
+        clang
 run dnf config-manager --set-enabled powertools
 
 # CPP deps
