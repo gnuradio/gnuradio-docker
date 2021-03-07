@@ -1,5 +1,5 @@
 FROM ubuntu:18.04
-MAINTAINER Martin Braun <martin@gnuradio.org>
+LABEL maintainer="martin@gnuradio.org"
 
 ENV security_updates_as_of 2021-01-13
 
@@ -10,6 +10,7 @@ RUN apt-get update -q \
 # CPP deps
 RUN DEBIAN_FRONTEND=noninteractive \
        apt-get install -qy \
+         libad9361-0 \
          libasound2 \
          libboost-date-time1.65.1 \
          libboost-filesystem1.65.1 \
@@ -20,6 +21,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
          libgmp10 \
          libgsl23 \
          libgtk-3-0 \
+         libiio0 \
          libjack-jackd2-0 \
          liblog4cpp5v5 \
          libpangocairo-1.0-0 \
@@ -86,6 +88,7 @@ RUN mv /sbin/sysctl /sbin/sysctl.orig \
        build-essential \
        ccache \
        cmake \
+       libad9361-dev \
        libboost-date-time-dev \
        libboost-dev \
        libboost-filesystem-dev \
@@ -99,6 +102,7 @@ RUN mv /sbin/sysctl /sbin/sysctl.orig \
        libfftw3-dev \
        libgmp-dev \
        libgsl0-dev \
+       libiio-dev \
        liblog4cpp5-dev \
        libqt4-dev \
        libqwt-dev \
