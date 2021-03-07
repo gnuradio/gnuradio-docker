@@ -1,5 +1,5 @@
 FROM fedora:33
-MAINTAINER Martin Braun <martin@gnuradio.org>
+LABEL maintainer="martin@gnuradio.org"
 
 ENV security_updates_as_of 2021-01-06
 
@@ -36,7 +36,10 @@ RUN dnf install -y \
         uhd-devel \
 ## Vocoder libraries
         codec2-devel \
-        gsm-devel
+        gsm-devel \
+# gr-iio
+        libad9361-devel \
+        libiio-devel
 
 # Python deps
 RUN dnf install -y \
