@@ -116,3 +116,15 @@ RUN cd /src/build && cmake -DCMAKE_BUILD_TYPE=Release ../volk/ && make && make i
 RUN mkdir -p /src/build
 RUN git clone --recursive https://github.com/pybind/pybind11.git /src/pybind11 --branch v2.4.0
 RUN cd /src/build && cmake -DPYBIND11_TEST=OFF /src/pybind11 && make install && rm -rf /src/
+
+# Install SoapySDR
+RUN mkdir -p /src \
+    && cd /src \
+    && git clone -b soapy-sdr-0.7.2 https://github.com/pothosware/SoapySDR/ \
+    && cd SoapySDR \
+    && mkdir build \
+    && cd build \
+    && cmake -DCMAKE_INSTALL_PREFIX=/usr .. \
+    && make install \
+    && cd / \
+    && rm -rf /src

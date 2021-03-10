@@ -22,6 +22,8 @@ RUN DEBIAN_FRONTEND=noninteractive \
          libgsl23 \
          libgtk-3-0 \
          libiio0 \
+         libsoapysdr0.7 \
+         soapysdr-tools \
          libjack-jackd2-0 \
          liblog4cpp5v5 \
          libpangocairo-1.0-0 \
@@ -84,6 +86,7 @@ RUN mv /sbin/sysctl /sbin/sysctl.orig \
        libgmp-dev \
        libgsl0-dev \
        libiio-dev \
+       libsoapysdr-dev \
        liblog4cpp5-dev \
        libqwt-qt5-dev \
        qtbase5-dev \
