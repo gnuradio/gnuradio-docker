@@ -98,4 +98,16 @@ RUN mkdir -p /src/build
 RUN git clone --recursive https://github.com/analogdevicesinc/libad9361-iio.git /src/libiio_ad9361 --branch 2019_R2 --depth 1
 RUN cd /src/build && cmake -DCMAKE_BUILD_TYPE=Release ../libiio_ad9361/ && make && make install && cd / && rm -rf /src/
 
+# Install SoapySDR
+RUN mkdir -p /src \
+    && pushd /src \
+    && git clone -b soapy-sdr-0.7.2 https://github.com/pothosware/SoapySDR/ \
+    && cd SoapySDR \
+    && mkdir build \
+    && cd build \
+    && cmake -DCMAKE_INSTALL_PREFIX=/usr .. \
+    && make install \
+    && popd \
+    && rm -rf /src
+
 RUN pip3 install --upgrade mako

@@ -39,7 +39,9 @@ RUN dnf install -y \
         gsm-devel \
 # gr-iio
         libad9361-devel \
-        libiio-devel
+        libiio-devel \
+# gr-soapy
+        SoapySDR-devel
 
 # Python deps
 RUN dnf install -y \
