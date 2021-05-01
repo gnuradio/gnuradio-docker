@@ -88,7 +88,7 @@ RUN cd /src/build && cmake3 -DPYBIND11_TEST=OFF /src/pybind11 && make install &&
 # Install SoapySDR
 RUN mkdir -p /src \
     && pushd /src \
-    && git clone -b soapy-sdr-0.7.2 https://github.com/pothosware/SoapySDR/ \
+    && git clone -b soapy-sdr-0.8.0 https://github.com/pothosware/SoapySDR/ \
     && cd SoapySDR \
     && mkdir build \
     && cd build \
