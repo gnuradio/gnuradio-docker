@@ -101,7 +101,7 @@ RUN cd /src/build && cmake -DCMAKE_BUILD_TYPE=Release ../libiio_ad9361/ && make 
 # Install SoapySDR
 RUN mkdir -p /src \
     && pushd /src \
-    && git clone -b soapy-sdr-0.7.2 https://github.com/pothosware/SoapySDR/ \
+    && git clone -b soapy-sdr-0.8.0 https://github.com/pothosware/SoapySDR/ \
     && cd SoapySDR \
     && mkdir build \
     && cd build \
