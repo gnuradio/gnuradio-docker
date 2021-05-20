@@ -56,6 +56,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
          python3-yaml \
          python3-zmq \
          python3-six \
+         python3-pytest \
          --no-install-recommends \
     && apt-get clean
 
