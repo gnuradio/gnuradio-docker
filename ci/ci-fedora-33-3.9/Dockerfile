@@ -38,7 +38,6 @@ RUN dnf install -y \
         codec2-devel \
         gsm-devel \
 # gr-iio
-        libad9361-devel \
         libiio-devel \
 # gr-soapy
         SoapySDR-devel
@@ -80,6 +79,11 @@ RUN dnf clean all
 RUN mkdir -p /src/build
 RUN git clone --recursive https://github.com/gnuradio/volk.git /src/volk --branch v2.4.1 --depth 1
 RUN cd /src/build && cmake -DCMAKE_BUILD_TYPE=Release ../volk/ && make && make install && cd / && rm -rf /src/
+
+# Install libad9361
+RUN mkdir -p /src/build
+RUN git clone https://github.com/analogdevicesinc/libad9361-iio /src/libad9361 --branch v0.2 --depth 1
+RUN cd /src/build && cmake -DCMAKE_BUILD_TYPE=Release ../libad9361/ && make && make install && cd / && rm -rf /src/
 
 # CCache
 RUN dnf install -y \
