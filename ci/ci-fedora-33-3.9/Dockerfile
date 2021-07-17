@@ -1,18 +1,16 @@
 FROM fedora:33
 LABEL maintainer="martin@gnuradio.org"
 
-ENV security_updates_as_of 2021-01-06
+ENV security_updates_as_of 2021-07-17
 
 # Build
-RUN dnf install -y \
+RUN dnf install --refresh -y \
         cmake \
         make \
         gcc \
         gcc-c++ \
-        xz
-
+        xz \
 # CPP deps
-RUN dnf install -y \
         boost-devel \
         log4cpp-devel \
         cppzmq-devel \
@@ -40,10 +38,8 @@ RUN dnf install -y \
 # gr-iio
         libiio-devel \
 # gr-soapy
-        SoapySDR-devel
-
+        SoapySDR-devel \
 # Python deps
-RUN dnf install -y \
         python3-devel \
         python3-pybind11 \
         python3-numpy \
@@ -65,27 +61,32 @@ RUN dnf install -y \
         python3-pyyaml \
         python3-lxml \
         python3-gobject \
-	gtk3 \
+	      gtk3 \
         python3-cairo \
-        pango
-
-# For VOLK
-RUN dnf install -y \
-        git
-
-RUN dnf clean all
+        pango \
+# Git For VOLK and libad9361 source building
+        git \
+# For ccaching
+        ccache \
+# For testing metainfo files
+        appstream \
+        && dnf clean all
 
 # Install VOLK
-RUN mkdir -p /src/build
-RUN git clone --recursive https://github.com/gnuradio/volk.git /src/volk --branch v2.4.1 --depth 1
-RUN cd /src/build && cmake -DCMAKE_BUILD_TYPE=Release ../volk/ && make && make install && cd / && rm -rf /src/
+RUN mkdir -p /src/build && \
+    git clone --recursive https://github.com/gnuradio/volk.git /src/volk --branch v2.4.1 --depth 1 && \
+    cd /src/build && \
+    cmake -DCMAKE_BUILD_TYPE=Release ../volk/ && \
+    make && \
+    make install && \
+    cd / \
+    && rm -rf /src/
 
 # Install libad9361
-RUN mkdir -p /src/build
-RUN git clone https://github.com/analogdevicesinc/libad9361-iio /src/libad9361 --branch v0.2 --depth 1
-RUN cd /src/build && cmake -DCMAKE_BUILD_TYPE=Release ../libad9361/ && make && make install && cd / && rm -rf /src/
-
-# CCache
-RUN dnf install -y \
-        ccache \
-        && dnf clean all
+RUN mkdir -p /src/build && \
+    git clone https://github.com/analogdevicesinc/libad9361-iio /src/libad9361 --branch v0.2 --depth 1 && \
+    cd /src/build && cmake -DCMAKE_BUILD_TYPE=Release ../libad9361/ && \
+    make && \
+    make install && \
+    cd / && \
+    rm -rf /src/
