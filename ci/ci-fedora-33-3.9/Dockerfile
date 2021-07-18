@@ -72,6 +72,10 @@ RUN dnf install --refresh -y \
         appstream \
         && dnf clean all
 
+# For testing metainfo files
+RUN dnf install --refresh -y libappstream-glib \
+    && dnf clean all
+
 # Install VOLK
 RUN mkdir -p /src/build && \
     git clone --recursive https://github.com/gnuradio/volk.git /src/volk --branch v2.4.1 --depth 1 && \
