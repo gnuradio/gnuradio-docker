@@ -123,3 +123,14 @@ RUN apt-get -y install -q \
 RUN apt-get install -qy libvolk2-dev \
     && apt-get clean \
     && apt-get autoclean
+
+RUN apt-get install -qy libiio-dev \
+    && apt-get clean \
+    && apt-get autoclean \
+    && mkdir -p /src/build && \
+    git clone https://github.com/analogdevicesinc/libad9361-iio /src/libad9361 --branch v0.2 --depth 1 && \
+    cd /src/build && cmake -DCMAKE_BUILD_TYPE=Release ../libad9361/ && \
+    make && \
+    make install && \
+    cd / && \
+    rm -rf /src/
