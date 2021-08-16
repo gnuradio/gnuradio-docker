@@ -1,7 +1,7 @@
 FROM debian:buster
 LABEL maintainer="martin@gnuradio.org"
 
-ENV security_updates_as_of 2021-01-06
+ENV security_updates_as_of 2021-08-16
 
 # Prepare distribution
 RUN apt-get update -q \
@@ -15,13 +15,14 @@ RUN DEBIAN_FRONTEND=noninteractive \
          libboost-filesystem1.67.0 \
          libboost-program-options1.67.0 \
          libboost-thread1.67.0 \
-         libcomedi0 \
          libfftw3-bin \
          libgmp10 \
          libgsl23 \
          libgtk-3-0 \
          libjack-jackd2-0 \
          liblog4cpp5v5 \
+         libspdlog-dev \
+         libfmt-dev \
          libpangocairo-1.0-0 \
          libportaudio2 \
          libqwt-qt5-6 \
@@ -89,7 +90,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y \
        portaudio19-dev \
        pyqt5-dev-tools \
        doxygen \
-       doxygen-latex
+       doxygen-latex && \
+       apt-get clean
 
 # Testing deps
 RUN DEBIAN_FRONTEND=noninteractive \
@@ -98,25 +100,34 @@ RUN DEBIAN_FRONTEND=noninteractive \
        lcov \
        python3-scipy \
        --no-install-recommends \
-    && apt-get clean
+       && apt-get clean \
+       && apt-get autoclean
 
 # Install other dependencies (e.g. VOLK)
 RUN apt-get -y install -q \
         git \
         ca-certificates \
-        --no-install-recommends
-RUN apt-get clean
-RUN apt-get autoclean
+        --no-install-recommends && \
+        apt-get clean && \
+        apt-get autoclean
 
 # Install VOLK
-RUN mkdir -p /src/build
-RUN git clone --recursive https://github.com/gnuradio/volk.git /src/volk --branch v2.4.1
-RUN cd /src/build && cmake -DCMAKE_BUILD_TYPE=Release ../volk/ && make && make install && cd / && rm -rf /src/
+RUN mkdir -p /src/build && \
+    git clone --recursive https://github.com/gnuradio/volk.git /src/volk --branch v2.4.1 && \
+    cd /src/build && \
+    cmake -DCMAKE_BUILD_TYPE=Release ../volk/ && \
+    make && \
+    make install && \
+    cd / && \
+    rm -rf /src/
 
 # Install Pybind11
-RUN mkdir -p /src/build
-RUN git clone --recursive https://github.com/pybind/pybind11.git /src/pybind11 --branch v2.4.0
-RUN cd /src/build && cmake -DPYBIND11_TEST=OFF /src/pybind11 && make install && rm -rf /src/
+RUN mkdir -p /src/build && \
+    git clone --recursive https://github.com/pybind/pybind11.git /src/pybind11 --branch v2.4.0 && \
+    cd /src/build && \
+    cmake -DPYBIND11_TEST=OFF /src/pybind11 && \
+    make install && \
+    rm -rf /src/
 
 # Install SoapySDR
 RUN mkdir -p /src \

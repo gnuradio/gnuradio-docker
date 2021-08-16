@@ -1,7 +1,7 @@
 FROM ubuntu:20.04
 LABEL maintainer="martin@gnuradio.org"
 
-ENV security_updates_as_of 2020-12-18
+ENV security_updates_as_of 2021-08-15
 
 # Prepare distribution
 RUN apt-get update -q \
@@ -89,6 +89,8 @@ RUN mv /sbin/sysctl /sbin/sysctl.orig \
        libiio-dev \
        libsoapysdr-dev \
        liblog4cpp5-dev \
+       libspdlog-dev \
+       libfmt-dev \
        libqwt-qt5-dev \
        qtbase5-dev \
        libsdl1.2-dev \
@@ -103,7 +105,8 @@ RUN mv /sbin/sysctl /sbin/sysctl.orig \
     && rm -f /sbin/sysctl \
     && ln -s /usr/bin/ccache /usr/lib/ccache/cc \
     && ln -s /usr/bin/ccache /usr/lib/ccache/c++ \
-    && mv /sbin/sysctl.orig /sbin/sysctl
+    && mv /sbin/sysctl.orig /sbin/sysctl \
+    && apt-get clean
 
 # Testing deps
 RUN DEBIAN_FRONTEND=noninteractive \
@@ -117,12 +120,18 @@ RUN DEBIAN_FRONTEND=noninteractive \
 # Install other dependencies (e.g. VOLK)
 RUN apt-get -y install -q \
         git \
-        ca-certificates \
-        --no-install-recommends
-RUN apt-get clean
-RUN apt-get autoclean
+    ca-certificates \
+    appstream-util \
+    --no-install-recommends \
+    && apt-get clean \
+    && apt-get autoclean
 
 # Install VOLK
-RUN mkdir -p /src/build
-RUN git clone --recursive https://github.com/gnuradio/volk.git /src/volk --branch v2.4.1
-RUN cd /src/build && cmake -DCMAKE_BUILD_TYPE=Release ../volk/ && make && make install && cd / && rm -rf /src/
+RUN mkdir -p /src/build \
+&& git clone --recursive https://github.com/gnuradio/volk.git /src/volk --branch v2.4.1 \
+&& cd /src/build \
+&& cmake -DCMAKE_BUILD_TYPE=Release ../volk/ \
+&& make -j4\
+&& make install \
+&& cd / \
+&& rm -rf /src/

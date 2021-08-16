@@ -14,6 +14,8 @@ RUN dnf install --refresh -y \
         boost-devel \
         log4cpp-devel \
         cppzmq-devel \
+        spdlog-devel \
+        fmt-devel \
 # ctrlport - thrift
         thrift \
         thrift-devel \
