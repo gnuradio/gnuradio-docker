@@ -1,0 +1,66 @@
+name: Create and publish a Docker image
+
+# Trigger on push and on PR against master. Note that we don't push
+# containers to the registry if we're doing a PR.
+on:
+  push:
+    branches:
+    - 'master'
+  pull_request:
+    branches:
+    - 'master'
+
+env:
+  REGISTRY: ghcr.io
+
+jobs:
+  build-and-push-image:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - path: ci/ci-fedora-33-3.9
+            tag: fedora-33-3.9
+          - path: ci/ci-fedora-34-3.9
+            tag: fedora-34-3.9
+          - path: ci/ci-centos-7.6-3.8
+            tag: centos-7.6-3.8
+          - path: ci/ci-centos-7.6-3.9
+            tag: centos-7.6-3.9
+          - path: ci/ci-centos-8.3-3.9
+            tag: centos-8.3-3.9
+          - path: ci/ci-debian-10-3.9
+            tag: debian-10-3.9
+          - path: ci/ci-debian-11-3.10
+            tag: debian-11-3.10
+          - path: ci/ci-fedora-33-3.9
+            tag: fedora-33-3.9
+          - path: ci/ci-fedora-34-3.9
+            tag: fedora-34-3.9
+          - path: ci/ci-ubuntu-18.04-3.8
+            tag: ubuntu-18.04-3.8
+          - path: ci/ci-ubuntu-18.04-3.9
+            tag: ubuntu-18.04-3.9
+          - path: ci/ci-ubuntu-20.04-3.9
+            tag: ubuntu-20.04-3.9
+    name: Build CI container for ${{ matrix.tag }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Log in to the Container registry
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2.7.0
+        with:
+          context: .
+          push: true
+          tags: ghcr.io/gnuradio/ci:${{ matrix.tag }}
+          file: ${{ matrix.path }}/Dockerfile
