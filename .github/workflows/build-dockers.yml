@@ -49,19 +49,23 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      - name: Log in to the Container registry
+      - name: Log in to the Docker Hub Container registry
         uses: docker/login-action@v1
         with:
-          #registry: ghcr.io
-          #username: ${{ github.actor }}
-          #password: ${{ secrets.GITHUB_TOKEN }}
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Log in to the GitHub Container registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push Docker image
         uses: docker/build-push-action@v2.7.0
         with:
           context: .
           push: ${{ github.event_name != 'pull_request' }}
-          #tags: ghcr.io/gnuradio/ci:${{ matrix.tag }}
-          tags: gnuradio/ci:${{ matrix.tag }}
+          tags: |
+            gnuradio/ci:${{ matrix.tag }}
+            ghcr.io/gnuradio/ci:${{ matrix.tag }}
           file: ${{ matrix.path }}/Dockerfile
