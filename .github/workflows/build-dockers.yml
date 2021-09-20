@@ -61,6 +61,6 @@ jobs:
         uses: docker/build-push-action@v2.7.0
         with:
           context: .
-          push: true
+          push: ${{ github.event_name != 'pull_request' }}
           tags: ghcr.io/gnuradio/ci:${{ matrix.tag }}
           file: ${{ matrix.path }}/Dockerfile
