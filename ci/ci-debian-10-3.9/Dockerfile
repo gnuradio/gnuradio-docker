@@ -75,7 +75,6 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y \
        libboost-system-dev \
        libboost-test-dev \
        libboost-thread-dev \
-       libcomedi-dev \
        libcppunit-dev \
        libfftw3-dev \
        libgmp-dev \
