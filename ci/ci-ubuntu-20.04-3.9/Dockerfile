@@ -16,7 +16,6 @@ RUN DEBIAN_FRONTEND=noninteractive \
          libboost-filesystem1.71.0 \
          libboost-program-options1.71.0 \
          libboost-thread1.71.0 \
-         libcomedi0 \
          libfftw3-bin \
          libgmp10 \
          libgsl23 \
@@ -81,7 +80,6 @@ RUN mv /sbin/sysctl /sbin/sysctl.orig \
        libboost-system-dev \
        libboost-test-dev \
        libboost-thread-dev \
-       libcomedi-dev \
        libcppunit-dev \
        libfftw3-dev \
        libgmp-dev \
