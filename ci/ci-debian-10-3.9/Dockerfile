@@ -1,7 +1,7 @@
 FROM debian:buster
 LABEL maintainer="martin@gnuradio.org"
 
-ENV security_updates_as_of 2021-08-16
+ENV security_updates_as_of 2021-10-26
 
 # Prepare distribution
 RUN apt-get update -q \
@@ -21,8 +21,6 @@ RUN DEBIAN_FRONTEND=noninteractive \
          libgtk-3-0 \
          libjack-jackd2-0 \
          liblog4cpp5v5 \
-         libspdlog-dev \
-         libfmt-dev \
          libpangocairo-1.0-0 \
          libportaudio2 \
          libqwt-qt5-6 \
@@ -139,3 +137,10 @@ RUN mkdir -p /src \
     && make install \
     && cd / \
     && rm -rf /src
+
+# Get spdlog from buster-backports
+RUN DEBIAN_FRONTEND=noninteractive \
+    sh -c 'echo deb http://deb.debian.org/debian buster-backports main > /etc/apt/sources.list.d/backports.list' \
+    && apt-get update \
+    && apt-get install -t buster-backports -qy libspdlog-dev libfmt-dev \
+    && apt-get clean
