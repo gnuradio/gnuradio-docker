@@ -30,6 +30,8 @@ jobs:
             tag: centos-7.6-3.9
           - path: ci/ci-centos-8.3-3.9
             tag: centos-8.3-3.9
+          - path: ci/ci-centos-8.4-3.10
+            tag: centos-8.4-3.10
           - path: ci/ci-debian-10-3.9
             tag: debian-10-3.9
           - path: ci/ci-debian-11-3.10
