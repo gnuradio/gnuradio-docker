@@ -34,6 +34,8 @@ jobs:
             tag: centos-8.4-3.10
           - path: ci/ci-debian-10-3.9
             tag: debian-10-3.9
+          - path: ci/ci-debian-10-3.10
+            tag: debian-10-3.10
           - path: ci/ci-debian-11-3.10
             tag: debian-11-3.10
           - path: ci/ci-fedora-33-3.9
