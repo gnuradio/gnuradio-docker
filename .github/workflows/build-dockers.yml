@@ -44,6 +44,8 @@ jobs:
             tag: fedora-34-3.9
           - path: ci/ci-fedora-35-3.9
             tag: fedora-35-3.9
+          - path: ci/ci-fedora-36-3.9
+            tag: fedora-36-3.9
           - path: ci/ci-ubuntu-18.04-3.8
             tag: ubuntu-18.04-3.8
           - path: ci/ci-ubuntu-18.04-3.9
