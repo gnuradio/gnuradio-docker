@@ -52,6 +52,8 @@ jobs:
             tag: ubuntu-18.04-3.9
           - path: ci/ci-ubuntu-20.04-3.9
             tag: ubuntu-20.04-3.9
+          - path: ci/ci-ubuntu-22.04-3.9
+            tag: ubuntu-22.04-3.9
     name: Build CI container for ${{ matrix.tag }}
     environment: github-action-autobuild
     steps:
