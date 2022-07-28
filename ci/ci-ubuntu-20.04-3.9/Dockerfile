@@ -12,6 +12,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
        apt-get install -qy \
          libad9361-0 \
          libasound2 \
+         libasio-dev \
          libboost-date-time1.71.0 \
          libboost-filesystem1.71.0 \
          libboost-program-options1.71.0 \

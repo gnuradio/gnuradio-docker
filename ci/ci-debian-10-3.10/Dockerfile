@@ -16,6 +16,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
     && apt-get update \
     && apt-get install -qy \
     git \
+    libasio-dev \
     libasound2 \
     libfftw3-bin \
     libgmp10 \

@@ -15,6 +15,7 @@ RUN dnf install --refresh -y \
         gcc-c++ \
         xz \
 # CPP deps
+        asio-devel \
         boost-devel \
         log4cpp-devel \
         cppzmq-devel \
