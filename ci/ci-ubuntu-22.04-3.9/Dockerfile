@@ -73,6 +73,7 @@ RUN mv /sbin/sysctl /sbin/sysctl.orig \
        ccache \
        cmake \
        libad9361-dev \
+       libasio-dev \
        libboost-date-time-dev \
        libboost-dev \
        libboost-filesystem-dev \

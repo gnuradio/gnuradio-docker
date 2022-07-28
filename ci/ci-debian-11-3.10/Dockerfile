@@ -65,6 +65,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y \
     ccache \
     cmake \
     pybind11-dev \
+    libasio-dev \
     libboost-date-time-dev \
     libboost-dev \
     libboost-filesystem-dev \
