@@ -20,28 +20,16 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - path: ci/ci-fedora-33-3.9
-            tag: fedora-33-3.9
-          - path: ci/ci-fedora-34-3.9
-            tag: fedora-34-3.9
           - path: ci/ci-centos-7.6-3.8
             tag: centos-7.6-3.8
-          - path: ci/ci-centos-7.6-3.9
-            tag: centos-7.6-3.9
           - path: ci/ci-centos-8.3-3.9
             tag: centos-8.3-3.9
           - path: ci/ci-centos-8.4-3.10
             tag: centos-8.4-3.10
           - path: ci/ci-debian-10-3.9
             tag: debian-10-3.9
-          - path: ci/ci-debian-10-3.10
-            tag: debian-10-3.10
           - path: ci/ci-debian-11-3.10
             tag: debian-11-3.10
-          - path: ci/ci-fedora-33-3.9
-            tag: fedora-33-3.9
-          - path: ci/ci-fedora-34-3.9
-            tag: fedora-34-3.9
           - path: ci/ci-fedora-35-3.9
             tag: fedora-35-3.9
           - path: ci/ci-fedora-36-3.9
