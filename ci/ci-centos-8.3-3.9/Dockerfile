@@ -3,6 +3,9 @@ LABEL maintainer="martin@gnuradio.org"
 
 ENV security_updates_as_of 2021-08-15
 
+RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
+RUN sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
+
 RUN dnf install epel-release -y -q && \
     dnf -y install dnf-plugins-core && \
     dnf --enablerepo=epel check-update -y ;\
@@ -124,4 +127,3 @@ RUN mkdir -p /src \
     && make install \
     && popd \
     && rm -rf /src
-
