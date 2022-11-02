@@ -75,7 +75,7 @@ RUN dnf install --refresh -y \
 # For ccaching
         ccache \
 # For testing metainfo files
-        appstream \
+        libappstream-glib \
 # Install VOLK
         volk-devel \
         && dnf clean all

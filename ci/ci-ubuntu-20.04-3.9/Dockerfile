@@ -81,10 +81,12 @@ RUN mv /sbin/sysctl /sbin/sysctl.orig \
        libboost-system-dev \
        libboost-test-dev \
        libboost-thread-dev \
+       libcodec2-dev \
        libcppunit-dev \
        libfftw3-dev \
        libgmp-dev \
        libgsl0-dev \
+       libgsm1-dev \
        libiio-dev \
        libsoapysdr-dev \
        liblog4cpp5-dev \
