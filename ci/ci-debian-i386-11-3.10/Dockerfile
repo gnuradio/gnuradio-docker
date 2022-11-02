@@ -35,7 +35,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
     libunwind-dev \
     --no-install-recommends \
     && apt-get clean \
-    && apt-get autoclean 
+    && apt-get autoclean
 
 # Py3 deps
 RUN DEBIAN_FRONTEND=noninteractive \
@@ -73,10 +73,12 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y \
     libboost-system-dev \
     libboost-test-dev \
     libboost-thread-dev \
+    libcodec2-dev \
     libcppunit-dev \
     libfftw3-dev \
     libgmp-dev \
     libgsl0-dev \
+    libgsm1-dev \
     liblog4cpp5-dev \
     libqwt-qt5-dev \
     qtbase5-dev \
@@ -105,6 +107,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
 RUN apt-get -y install -q \
     git \
     ca-certificates \
+    appstream-util \
     --no-install-recommends && \
     apt-get clean && \
     apt-get autoclean
