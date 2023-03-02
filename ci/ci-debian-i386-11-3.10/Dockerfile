@@ -81,6 +81,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y \
     libgsm1-dev \
     liblog4cpp5-dev \
     libqwt-qt5-dev \
+    libqt5opengl5-dev \
     qtbase5-dev \
     libsdl1.2-dev \
     libuhd-dev \

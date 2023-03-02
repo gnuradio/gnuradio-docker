@@ -92,6 +92,7 @@ RUN mv /sbin/sysctl /sbin/sysctl.orig \
        libspdlog-dev \
        libfmt-dev \
        libqwt-qt5-dev \
+       libqt5opengl5-dev \
        qtbase5-dev \
        libsdl1.2-dev \
        libuhd-dev \
