@@ -89,6 +89,7 @@ RUN mv /sbin/sysctl /sbin/sysctl.orig \
        libqwt-dev \
        libqwt5-qt4 \
        libqwt-qt5-dev \
+       libqt5opengl5-dev \
        qtbase5-dev \
        libsdl1.2-dev \
        libuhd-dev \
