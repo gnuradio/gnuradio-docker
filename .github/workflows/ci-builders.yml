@@ -1,4 +1,4 @@
-name: Create and publish a Docker image
+name: Build and push the GNU Radio CI Images
 
 # Trigger on push and on PR against master. Note that we don't push
 # containers to the registry if we're doing a PR.
