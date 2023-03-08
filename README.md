@@ -10,6 +10,7 @@ This repository contains a range of GNU Radio-related Docker images.
     - [OOT Development Inside Container](#oot-development-inside-container)
     - [Github Workflows](#github-workflows)
     - [VSCode Devcontainer](#vscode-devcontainer)
+  - [PyBOMBS Development](#pybombs-development)
 
 
 ## CI Builders
@@ -175,3 +176,6 @@ OSX
 }
 ```
 
+## PyBOMBS Development
+
+The `pybombs-dev` image allows for testing PyBOMBS installation on CI. See, for example, its usage on the [gr-etcetera](https://github.com/gnuradio/gr-etcetera) project.
