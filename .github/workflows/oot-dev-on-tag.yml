@@ -1,0 +1,51 @@
+name: OOT Dev Image - Auto Docker Hub Push
+
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
+  pull_request:
+    branches:
+    - 'master'
+
+jobs:
+  build-and-push-image:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - ubuntu-version: jammy
+            gr-version: 3.10.5.1
+          - ubuntu-version: focal
+            gr-version: 3.10.5.1
+          - ubuntu-version: bionic
+            gr-version: 3.8.2
+          - ubuntu-version: bionic
+            gr-version: 3.7.11
+    steps:
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login to DockerHub
+        if: ${{ github.event_name != 'pull_request' }}
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        env:
+          IMG: ${{ secrets.DOCKERHUB_USERNAME }}/oot-dev
+          TAG: ${{ matrix.gr-version }}-ubuntu-${{ matrix.ubuntu-version }}
+        with:
+          push: ${{ github.event_name != 'pull_request' }}
+          file: docker/oot-dev.dockerfile
+          platforms: linux/amd64,linux/arm64
+          build-args: |
+            dist=ubuntu:${{ matrix.ubuntu-version }}
+            gr_version=${{ matrix.gr-version }}
+          tags: ${{ env.IMG }}:${{ env.TAG }}
+          cache-from: type=registry,ref=${{ env.IMG }}:${{ env.TAG }}
+          cache-to: type=inline
