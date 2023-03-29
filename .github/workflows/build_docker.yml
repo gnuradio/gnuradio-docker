@@ -17,18 +17,12 @@ jobs:
       fail-fast: false
       matrix:
         image:
-          - name: "fedora-34"
-            dockerfile: "ci/ci-fedora-34/Dockerfile"
-          - name: "fedora-35"
-            dockerfile: "ci/ci-fedora-35/Dockerfile"
           - name: "fedora-36"
             dockerfile: "ci/ci-fedora-36/Dockerfile"
           - name: "opensuse-tumbleweed"
             dockerfile: "ci/ci-opensuse-tumbleweed/Dockerfile"
           - name: "ubuntu-22.04"
             dockerfile: "ci/ci-ubuntu-22.04/Dockerfile"
-          - name: "ubuntu-20.04"
-            dockerfile: "ci/ci-ubuntu-20.04/Dockerfile"
 
     steps:
       - name: Checkout repository
