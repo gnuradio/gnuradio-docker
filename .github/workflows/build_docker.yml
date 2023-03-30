@@ -17,11 +17,11 @@ jobs:
       fail-fast: false
       matrix:
         image:
-          - name: "fedora-36"
+          - name: "fedora-36-4.0"
             dockerfile: "ci/ci-fedora-36/Dockerfile"
-          - name: "opensuse-tumbleweed"
+          - name: "opensuse-tumbleweed-4.0"
             dockerfile: "ci/ci-opensuse-tumbleweed/Dockerfile"
-          - name: "ubuntu-22.04"
+          - name: "ubuntu-22.04-4.0"
             dockerfile: "ci/ci-ubuntu-22.04/Dockerfile"
 
     steps:
