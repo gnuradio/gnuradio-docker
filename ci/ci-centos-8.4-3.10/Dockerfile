@@ -1,10 +1,7 @@
-FROM centos:8.4.2105
+FROM almalinux:8.4
 LABEL maintainer="martin@gnuradio.org"
 
-ENV security_updates_as_of 2021-11-01
-
-RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
-RUN sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
+ENV security_updates_as_of 2023-05-18
 
 RUN dnf install epel-release -y -q && \
     dnf -y install dnf-plugins-core && \
@@ -55,7 +52,8 @@ RUN dnf install epel-release -y -q && \
     libxml2-devel \
 # Python deps
     python3-devel \
-    python3-pybind11 \
+    python3.11-pybind11 \
+    python3.11-pybind11-devel \
     python3-numpy \
     python3-scipy \
     python3-zmq \
