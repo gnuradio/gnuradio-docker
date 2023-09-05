@@ -1,0 +1,289 @@
+# syntax=docker/dockerfile:1.0.0-experimental
+
+# Copyright (c) 2020 - 2021 Adam Horden <adam.horden@horden.engineering>
+
+# ----------------------------------------------------------------------------------------
+#
+# ----------------------------------------------------------------------------------------
+
+#
+
+FROM debian:bullseye-slim
+
+#
+
+LABEL maintainer="adam.horden@horden.engineering"
+
+# ----------------------------------------------------------------------------------------
+#
+# ----------------------------------------------------------------------------------------
+
+#
+
+ENV DEBIAN_FRONTEND="noninteractive"
+
+# ----------------------------------------------------------------------------------------
+#
+# ----------------------------------------------------------------------------------------
+
+RUN \
+  set \
+    -o \
+      "errexit" \
+    -o \
+      "xtrace" \
+    && apt-get update \
+    && apt-get upgrade --no-install-recommends --yes \
+    && rm \
+      --force \
+      --recursive \
+      "/usr/share/man" \
+    && rm \
+      --force \
+      --recursive \
+      "/var/lib/apt/lists"
+
+# ----------------------------------------------------------------------------------------
+#
+# ----------------------------------------------------------------------------------------
+
+RUN \
+  set \
+    -o \
+      "errexit" \
+    -o \
+      "xtrace" \
+    && apt-get update \
+    && apt-get install --no-install-recommends --yes "ca-certificates" \
+    && apt-get install --no-install-recommends --yes "clang-11" \
+    && apt-get install --no-install-recommends --yes "cmake" \
+    && apt-get install --no-install-recommends --yes "git" \
+    && apt-get install --no-install-recommends --yes "libc++-11-dev" \
+    && apt-get install --no-install-recommends --yes "libc++abi1-11" \
+    && apt-get install --no-install-recommends --yes "libc++abi-11-dev" \
+    && apt-get install --no-install-recommends --yes "libclang-11-dev" \
+    && apt-get install --no-install-recommends --yes "libclang-common-11-dev" \
+    && apt-get install --no-install-recommends --yes "libserialport0" \
+    && apt-get install --no-install-recommends --yes "libusb-1.0-0" \
+    && apt-get install --no-install-recommends --yes "llvm-11-dev" \
+    && apt-get install --no-install-recommends --yes "make" \
+    && apt-get install --no-install-recommends --yes "pkg-config" \
+    && rm \
+      --force \
+      --recursive \
+      "/usr/share/man" \
+    && rm \
+      --force \
+      --recursive \
+      "/var/lib/apt/lists"
+
+# ----------------------------------------------------------------------------------------
+# Arguments:
+# ----------------------------------------------------------------------------------------
+
+ARG GR_BLD_ARCH
+
+# ----------------------------------------------------------------------------------------
+#
+# ----------------------------------------------------------------------------------------
+
+COPY \
+  --from=gnuradio/gr_adi_lib_iio:v0.21 \
+  /usr/include/iio.h \
+  /usr/include/iio.h
+
+COPY \
+  --from=gnuradio/gr_adi_lib_iio:v0.21 \
+  /usr/lib/libiio.so.0.21 \
+  /usr/lib/libiio.so.0.21
+
+COPY \
+  --from=gnuradio/gr_adi_lib_iio:v0.21 \
+  /usr/lib/pkgconfig/libiio.pc \
+  /usr/lib/pkgconfig/libiio.pc
+
+# ----------------------------------------------------------------------------------------
+#
+# ----------------------------------------------------------------------------------------
+
+RUN \
+  set \
+    -o \
+      "errexit" \
+    -o \
+      "xtrace" \
+    && ln \
+      --force \
+      --symbolic \
+      "/usr/lib/libiio.so.0.21" \
+      "/usr/lib/libiio.so" \
+    && ln \
+      --force \
+      --symbolic \
+      "/usr/lib/libiio.so.0.21" \
+      "/usr/lib/libiio.so.0"
+
+# ----------------------------------------------------------------------------------------
+#
+# ----------------------------------------------------------------------------------------
+
+RUN \
+  set \
+    -o \
+      "errexit" \
+    -o \
+      "xtrace" \
+    && ln \
+      --force \
+      --symbolic \
+      "/usr/bin/clang-11" \
+      "/usr/bin/clang"
+
+# ----------------------------------------------------------------------------------------
+# Arguments:
+# ----------------------------------------------------------------------------------------
+
+ARG GR_ADI_LIB_IIO_AD9361_CMAKE_FLAGS=" \
+  -DBUILD_SHARED_LIBS=ON \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_C_COMPILER=/usr/bin/clang \
+  -DCMAKE_C_FLAGS=-std=c11 -stdlib=libc++ \
+  -DCMAKE_C_STANDARD=11 \
+  -DCMAKE_EXE_LINKER_FLAGS=-lc++abi \
+  -DCMAKE_INSTALL_LIBDIR:PATH=lib \
+  -DCMAKE_INSTALL_PREFIX:PATH=/usr"
+
+# ----------------------------------------------------------------------------------------
+# Arguments:
+# ----------------------------------------------------------------------------------------
+
+ARG GR_ADI_LIB_IIO_AD9361_SRC
+ARG GR_ADI_LIB_IIO_AD9361_SRC_TAG
+ARG GR_ADI_LIB_IIO_AD9361_SRC_VER
+
+# ----------------------------------------------------------------------------------------
+#
+# ----------------------------------------------------------------------------------------
+
+RUN \
+  set \
+    -o \
+      "errexit" \
+    -o \
+      "xtrace" \
+    && export \
+      GR_BLD_PTH="$( \
+        printf \
+        "/%s/%s/gr_adi_lib_iio_ad9361_bld_%s" \
+        "root" \
+        "gr" \
+        "${GR_ADI_LIB_IIO_AD9361_SRC_VER}")" \
+      GR_ADI_LIB_IIO_AD9361_BLD_PTH="$( \
+        printf \
+        "%s/gr_adi_lib_iio_ad9361_%s/gr_adi_lib_iio_ad9361_bld_%s" \
+        "${GR_BLD_PTH}" \
+        "${GR_ADI_LIB_IIO_AD9361_SRC_VER}" \
+        "${GR_ADI_LIB_IIO_AD9361_SRC_VER}")" \
+    && export \
+      GR_ADI_LIB_IIO_AD9361_SRC_PTH="$( \
+        printf \
+        "%s/gr_adi_lib_iio_ad9361_%s/gr_adi_lib_iio_ad9361_src_%s" \
+        "${GR_BLD_PTH}" \
+        "${GR_ADI_LIB_IIO_AD9361_SRC_VER}" \
+        "${GR_ADI_LIB_IIO_AD9361_SRC_VER}")" \
+    && mkdir \
+      --parents \
+      "${GR_ADI_LIB_IIO_AD9361_BLD_PTH}" \
+    && mkdir \
+      --parents \
+      "${GR_ADI_LIB_IIO_AD9361_SRC_PTH}" \
+    && cd \
+      "${GR_ADI_LIB_IIO_AD9361_BLD_PTH}" \
+    && /usr/bin/git \
+      clone \
+      --jobs \
+        "$(\
+        grep \
+        "processor.*:" \
+        /proc/cpuinfo | \
+          wc \
+            --lines)" \
+      "${GR_ADI_LIB_IIO_AD9361_SRC}" \
+      "${GR_ADI_LIB_IIO_AD9361_SRC_PTH}" \
+    && /usr/bin/git \
+      -C \
+        "${GR_ADI_LIB_IIO_AD9361_SRC_PTH}" \
+      fetch \
+    && /usr/bin/git \
+      -C \
+        "${GR_ADI_LIB_IIO_AD9361_SRC_PTH}" \
+      checkout \
+        "$( \
+          printf \
+          "tags/%s" \
+          "${GR_ADI_LIB_IIO_AD9361_SRC_TAG}")" \
+      -b \
+        ${GR_ADI_LIB_IIO_AD9361_SRC_TAG} \
+    && /usr/bin/cmake \
+      ${GR_ADI_LIB_IIO_AD9361_CMAKE_FLAGS} \
+      "${GR_ADI_LIB_IIO_AD9361_SRC_PTH}" \
+    && /usr/bin/cmake \
+      --build \
+        "${GR_ADI_LIB_IIO_AD9361_BLD_PTH}" \
+      -- \
+      -j \
+        "$(\
+        grep \
+        "processor.*:" \
+        /proc/cpuinfo | \
+          wc \
+            --lines)" \
+    # && /usr/bin/cmake \
+    #   --build \
+    #     "${GR_ADI_LIB_IIO_AD9361_BLD_PTH}" \
+    #   -- \
+    #   "test" \
+    && /usr/bin/cmake \
+      --build \
+        "${GR_ADI_LIB_IIO_AD9361_BLD_PTH}" \
+      -- \
+      "install" \
+    && rm \
+      --force \
+      --recursive \
+      "${GR_BLD_PTH}"
+
+# ----------------------------------------------------------------------------------------
+#
+# ----------------------------------------------------------------------------------------
+
+RUN \
+  set \
+    -o \
+      "errexit" \
+    -o \
+      "xtrace" \
+    && apt-get update \
+    && apt-get remove --purge --yes "ca-certificates" \
+    && apt-get remove --purge --yes "clang-11" \
+    && apt-get remove --purge --yes "cmake" \
+    && apt-get remove --purge --yes "git" \
+    && apt-get remove --purge --yes "libc++-11-dev" \
+    && apt-get remove --purge --yes "libc++abi1-11" \
+    && apt-get remove --purge --yes "libc++abi-11-dev" \
+    && apt-get remove --purge --yes "libclang-11-dev" \
+    && apt-get remove --purge --yes "libclang-common-11-dev" \
+    && apt-get remove --purge --yes "libserialport0" \
+    && apt-get remove --purge --yes "libusb-1.0-0" \
+    && apt-get remove --purge --yes "llvm-11-dev" \
+    && apt-get remove --purge --yes "make" \
+    && apt-get remove --purge --yes "pkg-config" \
+    && apt-get autoremove --purge --yes \
+    && rm \
+      --force \
+      --recursive \
+      "/usr/share/man" \
+    && rm \
+      --force \
+      --recursive \
+      "/var/lib/apt/lists"
