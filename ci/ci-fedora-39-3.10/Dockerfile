@@ -1,7 +1,7 @@
 FROM fedora:39
 LABEL maintainer="martin@gnuradio.org"
 
-ENV security_updates_as_of 2024-02-15
+ENV security_updates_as_of 2024-03-10
 
 # Build
 RUN dnf install --refresh -y \
