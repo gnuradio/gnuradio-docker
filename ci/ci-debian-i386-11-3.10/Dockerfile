@@ -1,70 +1,45 @@
 FROM i386/debian:bullseye
 LABEL maintainer="mmueller@gnuradio.org"
 
-ENV security_updates_as_of 2022-06-29
+ENV security_updates_as_of 2024-05-16
 
 # Prepare distribution
 RUN apt-get update -q \
-    && apt-get -y upgrade
-
-# CPP deps
-RUN DEBIAN_FRONTEND=noninteractive \
-    apt-get install -qy \
-    libasound2 \
-    libfftw3-bin \
-    libgmp10 \
-    libgtk-3-0 \
-    libjack-jackd2-0 \
-    liblog4cpp5v5 \
-    libspdlog-dev \
-    libfmt-dev \
-    libpangocairo-1.0-0 \
-    libportaudio2 \
-    libqwt-qt5-6 \
-    libsndfile1-dev \
-    libsdl-image1.2 \
-    libthrift-dev \
-    libuhd-dev \
-    libusb-1.0-0 \
-    libzmq5 \
-    libpango-1.0-0 \
-    gir1.2-gtk-3.0 \
-    gir1.2-pango-1.0 \
-    pkg-config \
-    thrift-compiler \
-    libunwind-dev \
-    --no-install-recommends \
-    && apt-get clean \
-    && apt-get autoclean
-
-# Py3 deps
-RUN DEBIAN_FRONTEND=noninteractive \
-    apt-get install -qy \
-    python3-click \
-    python3-click-plugins \
-    python3-mako \
-    python3-dev \
-    python3-gi \
-    python3-gi-cairo \
-    python3-lxml \
-    python3-numpy \
-    python3-opengl \
-    python3-pyqt5 \
-    python3-yaml \
-    python3-zmq \
-    python3-six \
-    python3-pytest \
-    --no-install-recommends \
+    && apt-get -y upgrade \
     && apt-get clean \
     && apt-get autoclean
 
 # Build deps
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y \
     --no-install-recommends \
+    appstream-util \
     build-essential \
+    ca-certificates \
     ccache \
     cmake \
-    pybind11-dev \
+    doxygen \
+    doxygen-latex \
+    git \
+    pkg-config \
+    thrift-compiler \
+    && apt-get clean \
+    && apt-get autoclean
+
+# Testing deps
+RUN DEBIAN_FRONTEND=noninteractive \
+    apt-get install -qy \
+    lcov \
+    xvfb \
+    --no-install-recommends \
+    && apt-get clean \
+    && apt-get autoclean
+
+# CPP deps
+RUN DEBIAN_FRONTEND=noninteractive \
+    apt-get install -qy \
+    gir1.2-gtk-3.0 \
+    gir1.2-pango-1.0 \
+    libasound2 \
     libboost-date-time-dev \
     libboost-dev \
     libboost-filesystem-dev \
@@ -75,49 +50,68 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y \
     libboost-thread-dev \
     libcodec2-dev \
     libcppunit-dev \
+    libfftw3-bin \
     libfftw3-dev \
+    libfmt-dev \
     libgmp-dev \
+    libgmp10 \
     libgsl0-dev \
     libgsm1-dev \
+    libgtk-3-0 \
+    libjack-jackd2-0 \
     liblog4cpp5-dev \
-    libqwt-qt5-dev \
+    liblog4cpp5v5 \
+    libpango-1.0-0 \
+    libpangocairo-1.0-0 \
+    libportaudio2 \
     libqt5opengl5-dev \
-    qtbase5-dev \
+    libqwt-qt5-6 \
+    libqwt-qt5-dev \
+    libsdl-image1.2 \
     libsdl1.2-dev \
-    libuhd-dev \
-    libzmq3-dev \
-    portaudio19-dev \
-    pyqt5-dev-tools \
+    libsndfile1-dev \
     libsoapysdr-dev \
-    doxygen \
-    doxygen-latex \
-    && apt-get clean \
-    && apt-get autoclean
-
-# Testing deps
-RUN DEBIAN_FRONTEND=noninteractive \
-    apt-get install -qy \
-    xvfb \
-    lcov \
-    python3-scipy \
+    libspdlog-dev \
+    libthrift-dev \
+    libuhd-dev \
+    libuhd-dev \
+    libunwind-dev \
+    libusb-1.0-0 \
+    libvolk2-dev \
+    libzmq3-dev \
+    libzmq5 \
+    portaudio19-dev \
+    pybind11-dev \
+    pyqt5-dev-tools \
+    qtbase5-dev \
     --no-install-recommends \
     && apt-get clean \
     && apt-get autoclean
 
-# Install other dependencies (e.g. VOLK)
-RUN apt-get -y install -q \
-    git \
-    ca-certificates \
-    appstream-util \
-    --no-install-recommends && \
-    apt-get clean && \
-    apt-get autoclean
-
-
-RUN apt-get install -qy libvolk2-dev \
+# Py3 deps
+RUN DEBIAN_FRONTEND=noninteractive \
+    apt-get install -qy \
+    python3-click \
+    python3-click-plugins \
+    python3-dev \
+    python3-gi \
+    python3-gi-cairo \
+    python3-lxml \
+    python3-mako \
+    python3-numpy \
+    python3-opengl \
+    python3-pygccxml \
+    python3-pyqt5 \
+    python3-pytest \
+    python3-scipy \
+    python3-six \
+    python3-yaml \
+    python3-zmq \
+    --no-install-recommends \
     && apt-get clean \
     && apt-get autoclean
 
+# Install libad9361
 RUN apt-get install -qy libiio-dev \
     && apt-get clean \
     && apt-get autoclean \
