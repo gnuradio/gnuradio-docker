@@ -1,7 +1,7 @@
 FROM debian:12
 LABEL maintainer="mmueller@gnuradio.org"
 
-ENV security_updates_as_of 2023-08-30
+ENV security_updates_as_of 2024-05-17
 
 # Prepare distribution
 RUN DEBIAN_FRONTEND=noninteractive \
@@ -99,6 +99,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
     python3-pytest \
     python3-yaml \
     python3-zmq \
+    python3-pygccxml \
     && apt-get clean \
     && apt-get autoclean
 
