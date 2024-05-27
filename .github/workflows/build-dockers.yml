@@ -45,7 +45,7 @@ jobs:
           - path: ci/ci-ubuntu-22.04-3.9
             tag: ubuntu-22.04-3.9
           - path: ci/ci-ubuntu-24.04-3.10
-            tag: ubuntu-22.04-3.10
+            tag: ubuntu-24.04-3.10
     name: Build CI container for ${{ matrix.tag }}
     environment: github-action-autobuild
     steps:
