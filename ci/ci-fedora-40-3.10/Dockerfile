@@ -10,6 +10,7 @@ RUN dnf install --refresh -y \
         gcc \
         gcc-c++ \
         clang \
+        clang-tools-extra \
         xz \
 # CPP deps
         asio-devel \
