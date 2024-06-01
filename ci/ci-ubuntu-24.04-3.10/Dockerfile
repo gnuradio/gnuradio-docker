@@ -14,6 +14,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
   appstream-util \
   ca-certificates \
   ccache \
+  clang-format \
   cmake \
   git \
   lcov \
