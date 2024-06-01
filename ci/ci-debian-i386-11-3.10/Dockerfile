@@ -30,6 +30,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
     apt-get install -qy \
     lcov \
     xvfb \
+    clang-format \
     --no-install-recommends \
     && apt-get clean \
     && apt-get autoclean

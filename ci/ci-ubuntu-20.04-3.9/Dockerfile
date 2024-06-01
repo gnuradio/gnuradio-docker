@@ -116,6 +116,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
        xvfb \
        lcov \
        python3-scipy \
+       clang-format \
        --no-install-recommends \
     && apt-get clean
 
