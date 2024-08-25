@@ -58,8 +58,6 @@ RUN DEBIAN_FRONTEND=noninteractive \
          python3-opengl \
          python3-pyqt5 \
          python3-sphinx \
-         python3-sphinxcontrib-mermaid \
-         python3-sphinxcontrib-tikz \
          python3-sphinx-tabs \
          python3-breathe \
          python3-yaml \
