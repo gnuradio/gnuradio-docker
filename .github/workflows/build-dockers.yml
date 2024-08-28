@@ -20,32 +20,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - path: ci/ci-debian-10-3.9
-            tag: debian-10-3.9
-          - path: ci/ci-debian-11-3.10
-            tag: debian-11-3.10
-          - path: ci/ci-debian-i386-11-3.10
-            tag: debian-i386-11-3.10
-          - path: ci/ci-debian-12-3.10
-            tag: debian-12-3.10
-          - path: ci/ci-fedora-37-3.9
-            tag: fedora-37-3.9
-          - path: ci/ci-fedora-38-3.10
-            tag: fedora-38-3.10
-          - path: ci/ci-fedora-39-3.10
-            tag: fedora-39-3.10
           - path: ci/ci-fedora-40-3.10
             tag: fedora-40-3.10
-          - path: ci/ci-ubuntu-18.04-3.8
-            tag: ubuntu-18.04-3.8
-          - path: ci/ci-ubuntu-18.04-3.9
-            tag: ubuntu-18.04-3.9
-          - path: ci/ci-ubuntu-20.04-3.9
-            tag: ubuntu-20.04-3.9
-          - path: ci/ci-ubuntu-22.04-3.9
-            tag: ubuntu-22.04-3.9
-          - path: ci/ci-ubuntu-24.04-3.10
-            tag: ubuntu-24.04-3.10
     name: Build CI container for ${{ matrix.tag }}
     environment: github-action-autobuild
     steps:
