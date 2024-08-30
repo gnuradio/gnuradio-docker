@@ -1,0 +1,8 @@
+[cache.s3]
+use_ssl = true
+no_credentials = false
+server_side_encryption = false
+## Needs to be passed from CI as Env var
+# bucket = "sccache"
+# endpoint = "s3.us-west-002.backblazeb2.com"
+# Also need to pass AWS credentials as env vars (from GH secrets)

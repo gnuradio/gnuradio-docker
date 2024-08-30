@@ -1,7 +1,7 @@
 FROM fedora:40
-LABEL maintainer="martin@gnuradio.org"
+LABEL maintainer="mmueller@gnuradio.org"
 
-ENV security_updates_as_of 2024-04-23
+ENV security_updates_as_of 2024-08-29
 
 # Build
 RUN dnf install --refresh -y \
@@ -84,3 +84,16 @@ RUN mkdir -p /src/build && \
     make install && \
     cd / && \
     rm -rf /src/
+
+# "Install" sccache
+RUN mkdir /tmp/sccache/ \
+    && curl -L https://github.com/mozilla/sccache/releases/download/v0.8.1/sccache-v0.8.1-x86_64-unknown-linux-musl.tar.gz > /tmp/sccache.tgz \
+    && cd /tmp/sccache \
+    && tar xf /tmp/sccache.tgz \
+    && cp */sccache /usr/bin \
+    && rm -rf /tmp/sccache.tgz /tmp/sccache \
+    && mkdir -p /etc/sccache/ 
+COPY config /etc/sccache/config
+ENV SCCACHE_CONF="/etc/sccache/config"
+# anything works, but needs to be set:
+ENV AWS_REGION="non-AWS"
