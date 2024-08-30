@@ -93,7 +93,7 @@ RUN mkdir /tmp/sccache/ \
     && cp */sccache /usr/bin \
     && rm -rf /tmp/sccache.tgz /tmp/sccache \
     && mkdir -p /etc/sccache/ 
-COPY config /etc/sccache/config
+COPY ci/config /etc/sccache/config
 ENV SCCACHE_CONF="/etc/sccache/config"
 # anything works, but needs to be set:
 ENV AWS_REGION="non-AWS"
