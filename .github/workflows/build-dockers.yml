@@ -46,6 +46,6 @@ jobs:
           context: .
           push: ${{ github.event_name != 'pull_request' }}
           tags: |
-            samplefirstasklater/ci:${{ matrix.tag }}
-            ghcr.io/samplefirstasklater/ci:${{ matrix.tag }}
+            gnuradio/ci:${{ matrix.tag }}
+            ghcr.io/gnuradio/ci:${{ matrix.tag }}
           file: ${{ matrix.path }}/Dockerfile
