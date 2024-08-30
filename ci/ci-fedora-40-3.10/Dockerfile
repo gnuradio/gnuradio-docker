@@ -92,8 +92,15 @@ RUN mkdir /tmp/sccache/ \
     && tar xf /tmp/sccache.tgz \
     && cp */sccache /usr/bin \
     && rm -rf /tmp/sccache.tgz /tmp/sccache \
-    && mkdir -p /etc/sccache/ 
-COPY ci/config /etc/sccache/config
+    && mkdir -p /etc/sccache/ \
+# copy annoyingly would need to put the shared file into a separate image
+# or set up a builder context, and that just seems to be more trouble than it's
+# worth, sooooo:
+    && printf '[cache.s3]\n' > /etc/sccache/config \
+    && printf 'use_ssl = true\n' >> /etc/sccache/config \
+    && printf 'no_credentials = false\n' >> /etc/sccache/config \
+    && printf 'server_side_encryption = false\n' >> /etc/sccache/config
+
 ENV SCCACHE_CONF="/etc/sccache/config"
 # anything works, but needs to be set:
 ENV AWS_REGION="non-AWS"
