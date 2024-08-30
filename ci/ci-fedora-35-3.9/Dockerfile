@@ -1,7 +1,11 @@
-FROM fedora:40
+FROM fedora:35
 LABEL maintainer="martin@gnuradio.org"
 
-ENV security_updates_as_of 2024-04-23
+ENV security_updates_as_of 2021-10-19
+
+ADD https://github.com/AkihiroSuda/clone3-workaround/releases/download/v1.0.0/clone3-workaround.x86_64 /clone3-workaround
+RUN chmod 755 /clone3-workaround
+SHELL ["/clone3-workaround", "/bin/sh", "-c"]
 
 # Build
 RUN dnf install --refresh -y \
@@ -9,11 +13,11 @@ RUN dnf install --refresh -y \
         make \
         gcc \
         gcc-c++ \
-        clang \
         xz \
 # CPP deps
         asio-devel \
         boost-devel \
+        log4cpp-devel \
         cppzmq-devel \
         spdlog-devel \
         fmt-devel \
@@ -66,19 +70,22 @@ RUN dnf install --refresh -y \
 	      gtk3 \
         python3-cairo \
         pango \
-# Git for libad9361 source building
+# Git For VOLK and libad9361 source building
         git \
 # For ccaching
         ccache \
 # For testing metainfo files
         libappstream-glib \
-# Install VOLK
-        volk-devel \
         && dnf clean all
+
+# Install VOLK
+RUN dnf --refresh install -y \
+    volk-devel \
+    && dnf clean all
 
 # Install libad9361
 RUN mkdir -p /src/build && \
-    git clone https://github.com/analogdevicesinc/libad9361-iio /src/libad9361 --branch v0.3 --depth 1 && \
+    git clone https://github.com/analogdevicesinc/libad9361-iio /src/libad9361 --branch v0.2 --depth 1 && \
     cd /src/build && cmake -DCMAKE_BUILD_TYPE=Release ../libad9361/ && \
     make && \
     make install && \
