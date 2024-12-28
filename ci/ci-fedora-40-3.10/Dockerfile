@@ -85,3 +85,7 @@ RUN mkdir -p /src/build && \
     make install && \
     cd / && \
     rm -rf /src/
+# Install zsh for hash checker CI
+# (Roll into large installation step above for next release)
+RUN dnf --refresh install -y zsh  &&\
+    dnf clean all
