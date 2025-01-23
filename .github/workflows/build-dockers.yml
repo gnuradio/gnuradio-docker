@@ -28,14 +28,12 @@ jobs:
             tag: debian-i386-11-3.10
           - path: ci/ci-debian-12-3.10
             tag: debian-12-3.10
-          - path: ci/ci-fedora-37-3.9
-            tag: fedora-37-3.9
-          - path: ci/ci-fedora-38-3.10
-            tag: fedora-38-3.10
           - path: ci/ci-fedora-39-3.10
             tag: fedora-39-3.10
           - path: ci/ci-fedora-40-3.10
             tag: fedora-40-3.10
+          - path: ci/ci-fedora-41-3.10
+            tag: fedora-41-3.10
           - path: ci/ci-ubuntu-18.04-3.8
             tag: ubuntu-18.04-3.8
           - path: ci/ci-ubuntu-18.04-3.9
