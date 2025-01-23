@@ -29,6 +29,8 @@ RUN ${DNF_COMMAND} install --refresh -y \
         zsh \
         # For hash checking and libad9361 building
         git \
+        # For bundling up results
+        squashfs-tools \
         && ${DNF_COMMAND} clean all
 # Install libad9361
 RUN mkdir -p /src/build \
