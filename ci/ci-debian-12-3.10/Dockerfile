@@ -3,20 +3,22 @@ LABEL maintainer="mmueller@gnuradio.org"
 
 ENV security_updates_as_of 2024-05-17
 
+ARG APT_INSTALL_COMMAND="apt-get install -qy --no-install-recommends"
+ENV DEBIAN_FRONTEND=noninteractive
+
 # Prepare distribution
-RUN DEBIAN_FRONTEND=noninteractive \
-      apt-get update -q ;\
-    DEBIAN_FRONTEND=noninteractive \
-      apt-get -y upgrade \
-    && DEBIAN_FRONTEND=noninteractive \
-      apt-get -qy install ca-certificates \
+RUN \
+    apt-get update -q ;\
+    apt-get -y upgrade \
+    && ${APT_INSTALL_COMMAND} \
+    ca-certificates \
     && apt-get clean \
     && apt-get autoclean
 
 # CPP / base dev deps
-RUN DEBIAN_FRONTEND=noninteractive \
-    apt-get install -qy \
-    --no-install-recommends \
+RUN \
+    apt-get update -q ;\
+    ${APT_INSTALL_COMMAND} \
     \
     build-essential \
     ccache \
@@ -82,9 +84,8 @@ RUN DEBIAN_FRONTEND=noninteractive \
     && apt-get autoclean
 
 # Py3 deps
-RUN DEBIAN_FRONTEND=noninteractive \
-    apt-get install -qy \
-    --no-install-recommends \
+RUN \
+    ${APT_INSTALL_COMMAND} \
     python3-click \
     python3-click-plugins \
     python3-dev \
@@ -104,12 +105,14 @@ RUN DEBIAN_FRONTEND=noninteractive \
     && apt-get autoclean
 
 # Testing deps
-RUN DEBIAN_FRONTEND=noninteractive \
-    apt-get install -qy \
+RUN \
+    ${APT_INSTALL_COMMAND} \
     xvfb \
     lcov \
     python3-scipy \
     clang-format \
-    --no-install-recommends \
+    # for bundling up results
+    squashfs-tools \
     && apt-get clean \
     && apt-get autoclean
+
