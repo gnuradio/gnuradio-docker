@@ -33,7 +33,7 @@ jobs:
           - path: ci/ci-fedora-41-3.10
             tag: fedora-41-3.10
           - path: ci/ci-fedora-42-3.10
-            tag: fedora-41-3.10
+            tag: fedora-42-3.10
           - path: ci/ci-ubuntu-18.04-3.8
             tag: ubuntu-18.04-3.8
           - path: ci/ci-ubuntu-18.04-3.9
