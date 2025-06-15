@@ -38,3 +38,5 @@ RUN mkdir -p /src/build \
         && cd /src/build && cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo ../libad9361/ \
         && make && make install \
         && cd / && rm -rf /src
+
+RUN true
