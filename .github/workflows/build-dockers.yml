@@ -71,5 +71,5 @@ jobs:
             gnuradio/ci:${{ matrix.tag }}
             ghcr.io/gnuradio/ci:${{ matrix.tag }}
           file: ${{ matrix.path }}/Dockerfile
-          cache-from: type=gha,scope=ci-${{ matrix.tag }}
-          cache-to: type=gha,scope=ci-${{ matrix.tag }},mode=max
+          cache-from: type=s3
+          cache-to: type=s3
