@@ -71,5 +71,5 @@ jobs:
             gnuradio/ci:${{ matrix.tag }}
             ghcr.io/gnuradio/ci:${{ matrix.tag }}
           file: ${{ matrix.path }}/Dockerfile
-          cache-from: type=s3
-          cache-to: type=s3
+          cache-from: type=s3,region=none,bucket=gnuradio-docker-cache,name=${{ matrix.tag }},endpoint_url=https://s3.us-west-002.backblazeb2.com,access-key-id=${{ secrets.MARCUS_B2_S3_BUCKET_KEY_ID }},secret_access-key=${{ secrets.MARCUS_B2_S3_BUCKET_KEY }}
+          cache-to: type=s3,region=none,bucket=gnuradio-docker-cache,name=${{ matrix.tag }},endpoint_url=https://s3.us-west-002.backblazeb2.com,access-key-id=${{ secrets.MARCUS_B2_S3_BUCKET_KEY_ID }},secret_access-key=${{ secrets.MARCUS_B2_S3_BUCKET_KEY }}
