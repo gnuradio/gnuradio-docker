@@ -1,10 +1,17 @@
+# --- VERSIONS ---
+ARG FEDORA_VERSION=42
+ARG SCCACHE_VERSION=0.10.0
+ARG LIBAD9361_TAG=v0.3
+
+
+ARG DNF_COMMAND="dnf --setopt=install_weak_deps=False -q"
 # ---- sccache takes a while to build (it's rust…) and
 #      quite a bit of space (it's cargo), so:
 # avoid rebuilding if version hasn't changed
-FROM fedora:42 AS sccache-builder
-ARG SCCACHE_VERSION=0.10.0
+FROM fedora:${FEDORA_VERSION} AS sccache-builder
+ARG SCCACHE_VERSION
 
-ARG DNF_COMMAND="dnf --setopt=install_weak_deps=False -q"
+ARG DNF_COMMAND
 LABEL maintainer="mmueller@gnuradio.org"
 RUN ${DNF_COMMAND} install --refresh -y \
         cargo \
@@ -20,10 +27,10 @@ RUN ${DNF_COMMAND} install --refresh -y \
 
 
 # ---- build libad9361
-FROM fedora:42 AS libad9361-builder
-ARG LIBAD9361_TAG=v0.3
+FROM fedora:${FEDORA_VERSION} AS libad9361-builder
+ARG LIBAD9361_TAG
 
-ARG DNF_COMMAND="dnf --setopt=install_weak_deps=False -q"
+ARG DNF_COMMAND
 LABEL maintainer="mmueller@gnuradio.org"
 RUN ${DNF_COMMAND} install --refresh -y \
         libiio-devel \
@@ -52,9 +59,9 @@ RUN mkdir -p /src/build \
 
 
 # ---- MAIN CONTAINER ----
-FROM fedora:42
+FROM fedora:${FEDORA_VERSION}
 
-ARG DNF_COMMAND="dnf --setopt=install_weak_deps=False -q"
+ARG DNF_COMMAND
 LABEL maintainer="mmueller@gnuradio.org"
 # Make sure we don't try to use XCB, which seems to be very b0rked at this point
 ENV QT_QPA_PLATFORM=offscreen
