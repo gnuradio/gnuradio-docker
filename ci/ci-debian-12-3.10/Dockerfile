@@ -1,9 +1,39 @@
-FROM debian:12
+ARG DEBIAN_VERSION=12
+ARG SCCACHE_VERSION=0.10.0
+ARG APT_INSTALL_COMMAND="apt-get install -qy --no-install-recommends"
+
+# Debian 12/13 doesn't have sufficiently modern sccache
+# Sadly, also not sufficiently modern rust
+# so we get the constrained sccache binary blob from github releases
+# sigh.
+FROM debian:${DEBIAN_VERSION} AS sccache-builder
+ARG SCCACHE_VERSION
+ARG APT_INSTALL_COMMAND
 LABEL maintainer="mmueller@gnuradio.org"
 
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update -q ;\
+    ${APT_INSTALL_COMMAND} \
+    ca-certificates \
+    curl \
+    tar \
+    && apt-get clean
+
+RUN curl \
+    -L --silent \
+    "https://github.com/mozilla/sccache/releases/download/v${SCCACHE_VERSION}/sccache-v${SCCACHE_VERSION}-x86_64-unknown-linux-musl.tar.gz" \
+    > /tmp/sccache.tar.gz \
+    && cd /tmp/ \
+    && tar xf /tmp/sccache.tar.gz \
+    && mkdir -p /target/bin \
+    && cp /tmp/sccache-*/sccache /target/bin/sccache
+
+
+FROM debian:${DEBIAN_VERSION}
+ARG APT_INSTALL_COMMAND
+LABEL maintainer="mmueller@gnuradio.org"
 ENV security_updates_as_of 2024-05-17
 
-ARG APT_INSTALL_COMMAND="apt-get install -qy --no-install-recommends"
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Prepare distribution
@@ -116,3 +146,6 @@ RUN \
     && apt-get clean \
     && apt-get autoclean
 
+# Copy over sccache
+# Reconsider when debian contains modern sccache!
+COPY --from=sccache-builder /target/bin/sccache /usr/bin/sccache
