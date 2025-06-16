@@ -1,4 +1,4 @@
-name: Create and publish a Docker image
+name: Create/Publish Containers
 
 # Trigger on push and on PR against master. Note that we don't push
 # containers to the registry if we're doing a PR.
@@ -42,7 +42,7 @@ jobs:
             tag: ubuntu-22.04-3.9
           - path: ci/ci-ubuntu-24.04-3.10
             tag: ubuntu-24.04-3.10
-    name: Build CI container for ${{ matrix.tag }}
+    name: ${{ matrix.tag }}
     environment: github-action-autobuild
     steps:
       - name: Checkout repository
