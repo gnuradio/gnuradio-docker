@@ -26,6 +26,8 @@ jobs:
             tag: debian-11-3.10
           - path: ci/ci-debian-i386-11-3.10
             tag: debian-i386-11-3.10
+          - path: ci/ci-debian-i386-12-3.10
+            tag: debian-i386-12-3.10
           - path: ci/ci-debian-12-3.10
             tag: debian-12-3.10
           - path: ci/ci-fedora-40-3.10
