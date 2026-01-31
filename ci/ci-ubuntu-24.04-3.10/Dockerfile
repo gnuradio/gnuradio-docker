@@ -29,7 +29,7 @@ RUN cargo install \
 FROM ubuntu:${UBUNTU_VERSION}
 ARG APT_INSTALL_COMMAND
 LABEL maintainer="martin@gnuradio.org"
-ENV security_updates_as_of 2026-06-16
+ENV security_updates_as_of=2026-01-31
 
 ENV DEBIAN_FRONTEND=noninteractive
 

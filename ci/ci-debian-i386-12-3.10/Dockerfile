@@ -32,7 +32,7 @@ RUN curl \
 FROM i386/debian:${DEBIAN_VERSION}
 ARG APT_INSTALL_COMMAND
 LABEL maintainer="mmueller@gnuradio.org"
-ENV security_updates_as_of 2025-06-19
+ENV security_updates_as_of=2026-01-31
 
 ENV DEBIAN_FRONTEND=noninteractive
 # Prepare distribution
