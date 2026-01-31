@@ -32,12 +32,10 @@ jobs:
             tag: debian-12-3.10
           - path: ci/ci-debian-13-3.10
             tag: debian-13-3.10
-          - path: ci/ci-fedora-40-3.10
-            tag: fedora-40-3.10
-          - path: ci/ci-fedora-41-3.10
-            tag: fedora-41-3.10
           - path: ci/ci-fedora-42-3.10
             tag: fedora-42-3.10
+          - path: ci/ci-fedora-43-3.10
+            tag: fedora-43-3.10
           - path: ci/ci-ubuntu-18.04-3.9
             tag: ubuntu-18.04-3.9
           - path: ci/ci-ubuntu-20.04-3.9
