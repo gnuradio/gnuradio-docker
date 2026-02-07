@@ -31,7 +31,7 @@ RUN cargo install \
 FROM debian:${DEBIAN_VERSION}
 ARG APT_INSTALL_COMMAND
 LABEL maintainer="mmueller@gnuradio.org"
-ENV security_updates_as_of 2026-02-07
+ENV security_updates_as_of=2026-02-07
 
 ENV DEBIAN_FRONTEND=noninteractive
 
