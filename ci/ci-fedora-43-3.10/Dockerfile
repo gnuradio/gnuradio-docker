@@ -1,11 +1,31 @@
 # --- VERSIONS ---
 ARG FEDORA_VERSION=43
-# Fedora 43 ships sufficiently recent sccache
-# ARG SCCACHE_VERSION=0.10.0
+# Fedora 43 has sccache, but none with S3 storage support
+ARG SCCACHE_VERSION=0.10.0
 ARG LIBAD9361_TAG=v0.3
 
 
 ARG DNF_COMMAND="dnf --setopt=install_weak_deps=False -q"
+# ---- sccache takes a while to build (it's rust…) and
+#      quite a bit of space (it's cargo), so:
+# avoid rebuilding if version hasn't changed
+FROM fedora:${FEDORA_VERSION} AS sccache-builder
+ARG SCCACHE_VERSION
+
+ARG DNF_COMMAND
+LABEL maintainer="mmueller@gnuradio.org"
+RUN ${DNF_COMMAND} install --refresh -y \
+        cargo \
+        openssl-devel \
+        && ${DNF_COMMAND} clean all
+
+RUN cargo install \
+        --locked \
+        --quiet \
+        --target-dir /build \
+        --root /target \
+        sccache@${SCCACHE_VERSION} \
+        && rm -rf /build
 
 
 # ---- build libad9361
@@ -72,9 +92,9 @@ RUN ${DNF_COMMAND} install --refresh -y \
         # For bundling up results
         squashfs-tools \
         cpio \
-        # For build artifact caching 
-        sccache \
         && ${DNF_COMMAND} clean all
+# Copy over sccache
+COPY --from=sccache-builder /target/bin/sccache /usr/bin/sccache
 # Copy over libad9361
 COPY --from=libad9361-builder /target.cpio /libad9361-iio.cpio
 RUN cpio --extract \

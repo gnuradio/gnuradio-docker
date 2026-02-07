@@ -1,10 +1,37 @@
 ARG DEBIAN_VERSION=13
+ARG SCCACHE_VERSION=0.10.0
 ARG APT_INSTALL_COMMAND="apt-get install -qy --no-install-recommends"
+
+# Debian 13 has sccache, but none with S3 support.
+# So we need to build that ourselves.
+FROM debian:${DEBIAN_VERSION} AS sccache-builder
+ARG SCCACHE_VERSION
+ARG APT_INSTALL_COMMAND
+LABEL maintainer="mmueller@gnuradio.org"
+
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update -q ;\
+    ${APT_INSTALL_COMMAND} \
+    ca-certificates \
+    curl \
+    tar \
+    cargo \
+    pkg-config \
+    libssl-dev \
+    && apt-get clean
+
+RUN cargo install \
+        --locked \
+        --quiet \
+        --target-dir /build \
+        --root /target \
+        sccache@${SCCACHE_VERSION} \
+        && rm -rf /build
 
 FROM debian:${DEBIAN_VERSION}
 ARG APT_INSTALL_COMMAND
 LABEL maintainer="mmueller@gnuradio.org"
-ENV security_updates_as_of 2024-08-10
+ENV security_updates_as_of 2026-02-07
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -117,3 +144,6 @@ RUN \
     squashfs-tools \
     && apt-get clean \
     && apt-get autoclean
+
+# Copy over sccache
+COPY --from=sccache-builder /target/bin/sccache /usr/bin/sccache
