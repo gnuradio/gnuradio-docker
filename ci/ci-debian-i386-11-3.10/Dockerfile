@@ -1,7 +1,37 @@
-FROM i386/debian:bullseye
+ARG DEBIAN_VERSION=11
+ARG SCCACHE_VERSION=0.10.0
+ARG APT_INSTALL_COMMAND="apt-get install -qy --no-install-recommends"
+
+# Debian 11 doesn't have sufficiently modern sccache
+# Sadly, also not sufficiently modern rust
+# so we get the constrained sccache binary blob from github releases
+# sigh.
+FROM i386/debian:${DEBIAN_VERSION} AS sccache-builder
+ARG SCCACHE_VERSION
+ARG APT_INSTALL_COMMAND
 LABEL maintainer="mmueller@gnuradio.org"
 
-ENV security_updates_as_of 2024-05-16
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update -q ;\
+    ${APT_INSTALL_COMMAND} \
+    ca-certificates \
+    curl \
+    tar \
+    && apt-get clean
+
+RUN curl \
+    -L --silent \
+    "https://github.com/mozilla/sccache/releases/download/v${SCCACHE_VERSION}/sccache-v${SCCACHE_VERSION}-i686-unknown-linux-musl.tar.gz" \
+    > /tmp/sccache.tar.gz \
+    && cd /tmp/ \
+    && tar xf /tmp/sccache.tar.gz \
+    && mkdir -p /target/bin \
+    && cp /tmp/sccache-*/sccache /target/bin/sccache
+
+FROM i386/debian:${DEBIAN_VERSION}
+LABEL maintainer="mmueller@gnuradio.org"
+
+ENV security_updates_as_of 2026-02-09
 
 # Prepare distribution
 RUN apt-get update -q \
@@ -123,3 +153,6 @@ RUN apt-get install -qy libiio-dev \
     make install && \
     cd / && \
     rm -rf /src/
+
+# Copy over sccache
+COPY --from=sccache-builder /target/bin/sccache /usr/bin/sccache
