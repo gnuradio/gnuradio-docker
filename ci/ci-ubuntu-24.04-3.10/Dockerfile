@@ -48,12 +48,12 @@ RUN \
   cmake \
   git \
   lcov \
+  nlohmann-json3-dev \
   pkg-config \
   xvfb \
   # for bundling up results
   squashfs-tools \
-  && apt-get build-dep -qy gnuradio \
-  && apt-get clean && apt-get autoclean
+  && apt-get build-dep -qy gnuradio \  && apt-get clean && apt-get autoclean
 
 # Copy over sccache
 COPY --from=sccache-builder /target/bin/sccache /usr/bin/sccache

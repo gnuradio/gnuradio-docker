@@ -66,6 +66,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
          libpango-1.0-0 \
          gir1.2-gtk-3.0 \
          gir1.2-pango-1.0 \
+         nlohmann-json3-dev \
          pkg-config \
          thrift-compiler \
          libvolk2-dev \
