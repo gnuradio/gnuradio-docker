@@ -1,0 +1,54 @@
+ARG FEDORA_VERSION=44
+ARG DNF_COMMAND="dnf --setopt=install_weak_deps=False -q"
+
+
+FROM fedora:${FEDORA_VERSION}
+ARG DNF_COMMAND
+
+ENV LANG=C.UTF-8 \
+    LC_ALL=C.UTF-8 \
+    PKG_CONFIG=pkg-config \
+    CC=clang \
+    CXX=clang++
+
+RUN ${DNF_COMMAND} update -y \
+    && ${DNF_COMMAND} install -y \
+        bash \
+        ccache \
+        ca-certificates \
+        cmake \
+        file \
+        findutils \
+        gcc \
+        gcc-c++ \
+        git \
+        gnupg2 \
+        lsb_release \
+        make \
+        ninja-build \
+        pkgconf-pkg-config \
+        python3 \
+        python3-devel \
+        python3-numpy \
+        pybind11-devel \
+        wget \
+        cppzmq-devel \
+        boost-devel \
+        brotli-devel \
+        libcurl-devel \
+        cpp-httplib-devel \
+        fftw-devel \
+        gtest-devel \
+        openssl-devel \
+        tbb-devel \
+        json-devel \
+        cli11-devel \
+        rtaudio-devel \
+        portaudio-devel \
+        SoapySDR-devel \
+        clang \
+        compiler-rt \
+        libcxx-devel \
+        libcxxabi-devel \
+        libunwind-devel \
+    && ${DNF_COMMAND} clean all
