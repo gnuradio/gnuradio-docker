@@ -38,6 +38,8 @@ jobs:
             tag: ubuntu-24.04-4.0
           - path: ci/ci-ubuntu-24.04-4.0-emscripten
             tag: ubuntu-24.04-4.0-emscripten
+          - path: ci/ci-ubuntu-26.04-4.0
+            tag: ubuntu-26.04-4.0
           - path: ci/ci-ubuntu-20.04-3.9
             tag: ubuntu-20.04-3.9
           - path: ci/ci-ubuntu-22.04-3.9
