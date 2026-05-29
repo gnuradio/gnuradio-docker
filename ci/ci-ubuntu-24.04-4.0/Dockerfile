@@ -43,6 +43,7 @@ RUN apt-get update -q \
         libcpp-httplib-dev \
         libfftw3-dev \
         libgtest-dev \
+        libsoundio-dev \
         libssl-dev \
         libtbb-dev \
         nlohmann-json3-dev \
@@ -82,3 +83,26 @@ RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-14 140 \
     && update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang++-20 120 \
     && update-alternatives --set gcc /usr/bin/gcc-14 \
     && update-alternatives --set c++ /usr/bin/g++-14
+
+RUN git clone --branch 1.14.1 --depth 1 https://github.com/libcpr/cpr.git /tmp/cpr \
+    && cmake -S /tmp/cpr -B /tmp/cpr/build -G Ninja \
+        -DCPR_USE_SYSTEM_CURL=ON \
+        -DCPR_BUILD_TESTS=OFF \
+        -DCPR_BUILD_TESTS_SSL=OFF \
+        -DBUILD_SHARED_LIBS=ON \
+        -DCMAKE_BUILD_TYPE=Release \
+    && cmake --build /tmp/cpr/build \
+    && cmake --install /tmp/cpr/build \
+    && rm -rf /tmp/cpr
+
+RUN git clone https://github.com/boost-ext/ut.git /tmp/ut \
+    && git -C /tmp/ut checkout 53e17f25119598c6458d30351b260193096ba67e \
+    && cmake -S /tmp/ut -B /tmp/ut/build -G Ninja \
+        -DBOOST_UT_DISABLE_MODULE=ON \
+        -DCMAKE_BUILD_TYPE=Release \
+    && cmake --install /tmp/ut/build \
+    && rm -rf /tmp/ut
+
+RUN git clone --branch v0.4.4 --depth 1 https://github.com/mattkretz/vir-simd.git /opt/vir-simd \
+    && cmake -E copy_directory /opt/vir-simd/vir /usr/local/include/vir \
+    && rm -rf /opt/vir-simd
