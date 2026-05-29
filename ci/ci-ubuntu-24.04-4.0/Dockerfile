@@ -1,5 +1,27 @@
 ARG UBUNTU_VERSION=24.04
 ARG APT_INSTALL_COMMAND="apt-get install -qy --no-install-recommends"
+ARG SCCACHE_VERSION=0.10.0
+
+FROM ubuntu:${UBUNTU_VERSION} AS sccache-builder
+ARG SCCACHE_VERSION
+ARG APT_INSTALL_COMMAND
+LABEL maintainer="mmueller@gnuradio.org"
+
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update -q ;\
+    ${APT_INSTALL_COMMAND} \
+    cargo \
+    ca-certificates \
+    pkg-config \
+    libssl-dev \
+    && apt-get clean
+RUN cargo install \
+    --locked \
+    --quiet \
+    --target-dir /build \
+    --root /target \
+    sccache@${SCCACHE_VERSION} \
+    && rm -rf /build
 
 
 FROM ubuntu:${UBUNTU_VERSION}
@@ -106,3 +128,6 @@ RUN git clone https://github.com/boost-ext/ut.git /tmp/ut \
 RUN git clone --branch v0.4.4 --depth 1 https://github.com/mattkretz/vir-simd.git /opt/vir-simd \
     && cmake -E copy_directory /opt/vir-simd/vir /usr/local/include/vir \
     && rm -rf /opt/vir-simd
+
+# Copy over sccache
+COPY --from=sccache-builder /target/bin/sccache /usr/bin/sccache
