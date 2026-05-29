@@ -1,7 +1,6 @@
 ARG UBUNTU_VERSION=26.04
 ARG APT_INSTALL_COMMAND="apt-get install -qy --no-install-recommends"
 
-
 FROM ubuntu:${UBUNTU_VERSION}
 ARG APT_INSTALL_COMMAND
 
@@ -19,6 +18,7 @@ RUN apt-get update -q \
         build-essential \
         ca-certificates \
         ccache \
+        sccache \
         cmake \
         file \
         git \
