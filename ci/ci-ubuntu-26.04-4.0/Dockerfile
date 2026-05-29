@@ -31,9 +31,12 @@ RUN apt-get update -q \
         libboost-system-dev \
         libbrotli-dev \
         libcurl4-openssl-dev \
+        libboost-ext-ut-dev \
         libcpp-httplib-dev \
+        libcpr-dev \
         libfftw3-dev \
         libgtest-dev \
+        libsoundio-dev \
         libssl-dev \
         libtbb-dev \
         nlohmann-json3-dev \
@@ -57,3 +60,7 @@ RUN apt-get update -q \
     && apt-get clean \
     && apt-get autoclean \
     && rm -rf /var/lib/apt/lists/*
+
+RUN git clone --depth 1 --branch v0.4.4 https://github.com/mattkretz/vir-simd.git /opt/vir-simd \
+    && cmake -E copy_directory /opt/vir-simd/vir /usr/local/include/vir \
+    && rm -rf /opt/vir-simd

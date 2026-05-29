@@ -36,11 +36,14 @@ RUN ${DNF_COMMAND} update -y \
         boost-devel \
         brotli-devel \
         libcurl-devel \
+        cpr-devel \
         cpp-httplib-devel \
         fftw-devel \
         gtest-devel \
+        libsoundio-devel \
         openssl-devel \
         tbb-devel \
+        ut-devel \
         json-devel \
         cli11-devel \
         rtaudio-devel \
@@ -52,3 +55,8 @@ RUN ${DNF_COMMAND} update -y \
         libcxxabi-devel \
         libunwind-devel \
     && ${DNF_COMMAND} clean all
+
+RUN git clone --branch v0.4.4 --depth 1 https://github.com/mattkretz/vir-simd.git /opt/vir-simd \
+    && cmake -E copy_directory /opt/vir-simd/vir /usr/local/include/vir \
+    && rm -rf /opt/vir-simd
+    
