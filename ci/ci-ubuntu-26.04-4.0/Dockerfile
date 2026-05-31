@@ -27,6 +27,7 @@ RUN apt-get update -q \
         pkg-config \
         wget \
         cppzmq-dev \
+        libboost-ext-ut-dev\
         libboost-system-dev \
         libbrotli-dev \
         libcurl4-openssl-dev \
