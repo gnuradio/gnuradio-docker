@@ -46,6 +46,8 @@ jobs:
             tag: ubuntu-22.04-3.9
           - path: ci/ci-ubuntu-24.04-3.10
             tag: ubuntu-24.04-3.10
+          - path: ci/ci-ubuntu-26.04-3.11
+            tag: ubuntu-26.04-3.11
     name: ${{ matrix.tag }}
     environment: github-action-autobuild
     steps:
