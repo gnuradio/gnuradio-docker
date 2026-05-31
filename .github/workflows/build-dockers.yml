@@ -32,6 +32,8 @@ jobs:
             tag: fedora-42-3.10
           - path: ci/ci-fedora-43-3.10
             tag: fedora-43-3.10
+          - path: ci/ci-fedora-44-3.10
+            tag: fedora-44-3.10
           - path: ci/ci-fedora-44-4.0
             tag: fedora-44-4.0
           - path: ci/ci-ubuntu-24.04-4.0
