@@ -129,5 +129,13 @@ RUN git clone --branch v0.4.4 --depth 1 https://github.com/mattkretz/vir-simd.gi
     && cmake -E copy_directory /opt/vir-simd/vir /usr/local/include/vir \
     && rm -rf /opt/vir-simd
 
+# Install gcovr for coverage tests
+RUN apt-get update -q \
+    && ${APT_INSTALL_COMMAND} \
+    gcovr \
+    && apt-get clean \
+    && apt-get autoclean \
+    && rm -rf /var/lib/apt/lists/*
+
 # Copy over sccache
 COPY --from=sccache-builder /target/bin/sccache /usr/bin/sccache
