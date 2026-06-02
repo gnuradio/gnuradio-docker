@@ -100,7 +100,6 @@ RUN \
     python3-mako \
     python3-numpy \
     python3-opengl \
-    python3-pyqt5 \
     python3-pytest \
     python3-yaml \
     python3-zmq \
