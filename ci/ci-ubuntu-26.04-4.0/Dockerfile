@@ -17,7 +17,6 @@ RUN apt-get update -q \
         bash \
         build-essential \
         ca-certificates \
-        ccache \
         sccache \
         cmake \
         file \
@@ -28,6 +27,7 @@ RUN apt-get update -q \
         pkg-config \
         wget \
         cppzmq-dev \
+        libboost-ext-ut-dev\
         libboost-system-dev \
         libbrotli-dev \
         libcurl4-openssl-dev \
