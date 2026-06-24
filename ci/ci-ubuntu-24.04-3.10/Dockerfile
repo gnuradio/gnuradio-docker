@@ -48,6 +48,7 @@ RUN \
   cmake \
   git \
   lcov \
+  nlohmann-json3-dev \
   pkg-config \
   xvfb \
   # for bundling up results

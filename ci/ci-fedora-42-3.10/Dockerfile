@@ -71,6 +71,7 @@ RUN ${DNF_COMMAND} build-dep --refresh -y gnuradio \
         && ${DNF_COMMAND} install -y \
         # gr-iio
         libiio-devel \
+        json-devel \
         # JSON/YAML runtime config GRC blocks
         python3-jsonschema \
         # doxygen build (we should fix that with fedora's packaging)

@@ -107,6 +107,7 @@ RUN \
     libvolk2-dev \
     libzmq3-dev \
     libzmq5 \
+    nlohmann-json3-dev \
     portaudio19-dev \
     pyqt5-dev-tools \
     qtbase5-dev \
