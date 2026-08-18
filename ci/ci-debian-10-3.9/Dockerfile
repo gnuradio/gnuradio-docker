@@ -102,6 +102,7 @@ RUN \
   apt-get install -qy \
   --no-install-recommends \
   xvfb \
+  xauth \
   lcov \
   python3-scipy \
   && apt-get clean \

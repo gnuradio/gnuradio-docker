@@ -137,6 +137,7 @@ RUN \
 RUN \
     ${APT_INSTALL_COMMAND} \
     xvfb \
+    xauth \
     lcov \
     python3-scipy \
     clang-format \

@@ -99,6 +99,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y \
 RUN DEBIAN_FRONTEND=noninteractive \
     apt-get install -qy \
     xvfb \
+    xauth \
     lcov \
     python3-scipy \
     --no-install-recommends \
