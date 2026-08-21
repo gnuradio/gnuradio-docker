@@ -120,7 +120,7 @@ RUN \
     && apt-get clean \
     && apt-get autoclean
 
-COPY sid.sources /etc/apt/sources.list.d/sid.sources
+COPY commona_files/sid.sources /etc/apt/sources.list.d/sid.sources
 RUN apt update -q \
     && ${APT_INSTALL_COMMAND} \
     # for caching
