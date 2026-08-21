@@ -28,10 +28,10 @@ jobs:
             tag: debian-12-3.10
           - path: ci/ci-debian-13-3.10
             tag: debian-13-3.10
-          - path: ci/ci-debian-forky-3.10
-            tag: debian-forky-3.10
-          - path: ci/ci-debian-forky-3.11
-            tag: debian-forky-3.11
+          - path: ci/ci-debian-14-3.10
+            tag: debian-14-3.10
+          - path: ci/ci-debian-14-3.11
+            tag: debian-14-3.11
           - path: ci/ci-fedora-42-3.10
             tag: fedora-42-3.10
           - path: ci/ci-fedora-43-3.10
