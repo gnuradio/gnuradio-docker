@@ -120,8 +120,9 @@ RUN \
     && apt-get clean \
     && apt-get autoclean
 
-COPY sid.sources /etc/apt/sources.list.d/sid.sources
-RUN apt update -q \
+RUN echo "Types: deb deb-src\nURIs: http://deb.debian.org/debian/\nSuites: sid\nComponents: main\nSigned-By: /usr/share/keyrings/debian-archive-keyring.gpg\n" \
+        > /etc/apt/sources.list.d/sid.sources \
+    && apt update -q \
     && ${APT_INSTALL_COMMAND} \
     # for caching
     sccache \
