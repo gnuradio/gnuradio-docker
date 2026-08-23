@@ -60,7 +60,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@v4
       - name: Check cache availability
         id: check_s3_secrets
         env:
@@ -81,7 +81,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push Docker image (cached)
         if: ${{ steps.check_s3_secrets.outputs.HAS_BUCKET_KEY }}
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: .
           push: ${{ github.event_name != 'pull_request' }}
@@ -93,7 +93,7 @@ jobs:
           cache-to: type=s3,region=none,bucket=gnuradio-docker-cache,name=${{ matrix.tag }},endpoint_url=https://s3.us-west-002.backblazeb2.com,access_key_id=${{ secrets.MARCUS_B2_S3_BUCKET_KEY_ID }},secret_access_key=${{ secrets.MARCUS_B2_S3_BUCKET_KEY }}
       - name: Build and push Docker image (uncached)
         if: ${{ ! steps.check_s3_secrets.outputs.HAS_BUCKET_KEY }}
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: .
           push: ${{ github.event_name != 'pull_request' }}
