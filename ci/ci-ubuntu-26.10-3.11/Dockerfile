@@ -31,7 +31,9 @@ RUN \
   && apt-get clean && apt-get autoclean
 
 # Build deps
-RUN ${APT_INSTALL_COMMAND} \
+RUN \
+  apt-get update -q && \
+  ${APT_INSTALL_COMMAND} \
   cmake \
   g++ \
   cppzmq-dev \
@@ -84,7 +86,9 @@ RUN ${APT_INSTALL_COMMAND} \
   && apt-get clean && apt-get autoclean
 
 # Py3 deps
-RUN ${APT_INSTALL_COMMAND} \
+RUN \
+  apt-get update -q && \
+  ${APT_INSTALL_COMMAND} \
   python3-click \
   python3-dev \
   python3-gi \
@@ -108,6 +112,8 @@ RUN ${APT_INSTALL_COMMAND} \
   && apt-get clean && apt-get autoclean
 
 # Specific Version of clang-format for CI
-RUN ${APT_INSTALL_COMMAND} \
-  clang-format-22 \
+RUN \
+  apt-get update -q && \
+  ${APT_INSTALL_COMMAND} \
+      clang-format-22 \
   && apt-get clean && apt-get autoclean
