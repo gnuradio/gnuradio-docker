@@ -117,3 +117,9 @@ RUN \
   ${APT_INSTALL_COMMAND} \
       clang-format-22 \
   && apt-get clean && apt-get autoclean
+# Zsh for binding hash hotfixer
+RUN \
+  apt-get update -q && \
+  ${APT_INSTALL_COMMAND} \
+  zsh \
+  && apt-get clean && apt-get autoclean
