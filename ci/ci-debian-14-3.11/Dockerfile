@@ -117,6 +117,8 @@ RUN \
     clang-format-22 \
     # for bundling up results
     squashfs-tools \
+    # For binding hashes hotfixer
+    zsh \
     && apt-get clean \
     && apt-get autoclean
 
