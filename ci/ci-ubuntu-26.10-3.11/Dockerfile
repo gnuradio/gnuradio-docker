@@ -15,8 +15,8 @@ RUN apt-get update -q \
     && apt-get clean && apt-get autoclean
 
 RUN \
+  apt-get update -q && \
   ${APT_INSTALL_COMMAND} \
-  appstream-util \
   ca-certificates \
   ccache \
   sccache \
