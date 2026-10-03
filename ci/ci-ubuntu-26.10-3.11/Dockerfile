@@ -106,3 +106,8 @@ RUN ${APT_INSTALL_COMMAND} \
   pyqt6-dev-tools \
   python3-pyqt6.qtsvg \
   && apt-get clean && apt-get autoclean
+
+# Specific Version of clang-format for CI
+RUN ${APT_INSTALL_COMMAND} \
+  clang-format-22 \
+  && apt-get clean && apt-get autoclean

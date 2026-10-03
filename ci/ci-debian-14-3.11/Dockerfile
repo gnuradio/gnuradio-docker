@@ -114,7 +114,7 @@ RUN \
     xauth \
     lcov \
     python3-scipy \
-    clang-format \
+    clang-format-22 \
     # for bundling up results
     squashfs-tools \
     && apt-get clean \
@@ -129,4 +129,3 @@ RUN echo "Types: deb deb-src\nURIs: http://deb.debian.org/debian/\nSuites: sid\n
     && rm /etc/apt/sources.list.d/sid.sources \
     && apt-get clean \
     && apt-get autoclean
-
