@@ -1,4 +1,3 @@
-ARG CLANG_FORMAT_VERSION=22
 ARG DEBIAN_VERSION=13
 
 FROM debian:${DEBIAN_VERSION}-slim
@@ -9,10 +8,10 @@ ARG APT_INSTALL_COMMAND="apt-get -U install -qy --no-install-recommends"
 ARG APT_CLEANER="rm /var/lib/apt/lists/*_*"
 
 RUN ${APT_INSTALL_COMMAND} \
-      git \
-      clang-format-${CLANG_FORMAT_VERSION} \
-      zsh \
       bash \
       ca-certificates \
+      clang-format-22 \
+      git \
+      zsh \
       && ${APT_CLEANER}
 
