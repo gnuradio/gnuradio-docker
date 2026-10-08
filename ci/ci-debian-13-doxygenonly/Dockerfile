@@ -25,3 +25,7 @@ RUN ${APT_INSTALL_COMMAND} \
         libboost-test-dev \
         libboost-thread-dev \
         && ${APT_CLEANER}
+RUN ${APT_INSTALL_COMMAND} \
+        # for archive upload
+        squashfs-tools \
+        && ${APT_CLEANER}
