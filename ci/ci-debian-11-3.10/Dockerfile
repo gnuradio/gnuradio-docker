@@ -91,7 +91,6 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y \
     pyqt5-dev-tools \
     libsoapysdr-dev \
     doxygen \
-    doxygen-latex \
     && apt-get clean \
     && apt-get autoclean
 

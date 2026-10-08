@@ -57,7 +57,6 @@ RUN \
     \
     appstream-util \
     doxygen \
-    doxygen-latex \
     pybind11-dev \
     thrift-compiler \
     \
