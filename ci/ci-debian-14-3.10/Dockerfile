@@ -31,7 +31,6 @@ RUN \
     \
     # appstream-util just disappeared in forky? I never liked appstream, so I'll not sink time \
     doxygen \
-    doxygen-latex \
     pybind11-dev \
     thrift-compiler \
     \

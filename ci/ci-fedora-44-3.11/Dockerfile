@@ -76,7 +76,6 @@ RUN ${DNF_COMMAND} install --refresh -y \
 				python3-zmq \
 				qwt-qt6-devel \
 				spdlog-devel \
-				'tex(latex)' \
 				thrift \
 				uhd-devel \
 				volk-devel \
