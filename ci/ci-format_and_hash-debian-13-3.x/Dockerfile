@@ -13,6 +13,6 @@ RUN ${APT_INSTALL_COMMAND} \
       clang-format-${CLANG_FORMAT_VERSION} \
       zsh \
       bash \
+      ca-certificates \
       && ${APT_CLEANER}
-
 
