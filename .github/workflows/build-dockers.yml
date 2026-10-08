@@ -58,6 +58,8 @@ jobs:
             tag: ubuntu-24.04-3.10
           - path: ci/ci-ubuntu-26.10-3.11
             tag: ubuntu-26.10-3.11
+          - path: ci/ci-debian-13-doxygenonly/
+            tag: debian-13-doxygenonly
     name: ${{ matrix.tag }}
     environment: github-action-autobuild
     steps:
