@@ -70,7 +70,7 @@ jobs:
       - name: Check cache availability
         id: check_s3_secrets
         env:
-          S3_CACHE_KEY_ID: ${{ secrets.MARCUS_B2_S3_BUCKET_KEY_ID }}
+          S3_CACHE_KEY_ID: ${{ secrets.CACHE_KEY_ID }}
         run: tools/check_s3_availability.bash "${{ matrix.tag }}"
       - name: Log in to the Docker Hub Container registry
         if: ${{ github.event_name != 'pull_request' }}
@@ -95,8 +95,8 @@ jobs:
             gnuradio/ci:${{ matrix.tag }}
             ghcr.io/gnuradio/ci:${{ matrix.tag }}
           file: ${{ matrix.path }}/Dockerfile
-          cache-from: type=s3,region=none,bucket=gnuradio-docker-cache,name=${{ matrix.tag }},endpoint_url=https://s3.us-west-002.backblazeb2.com,access_key_id=${{ secrets.MARCUS_B2_S3_BUCKET_KEY_ID }},secret_access_key=${{ secrets.MARCUS_B2_S3_BUCKET_KEY }}
-          cache-to: type=s3,region=none,bucket=gnuradio-docker-cache,name=${{ matrix.tag }},endpoint_url=https://s3.us-west-002.backblazeb2.com,access_key_id=${{ secrets.MARCUS_B2_S3_BUCKET_KEY_ID }},secret_access_key=${{ secrets.MARCUS_B2_S3_BUCKET_KEY }}
+          cache-from: type=s3,region=${{ vars.CACHE_REGION }},bucket=${{ vars.CACHE_BUCKET }},name=${{ matrix.tag }},endpoint_url=${{ vars.CACHE_ENDPOINT }},access_key_id=${{ secrets.CACHE_KEY_ID }},secret_access_key=${{ secrets.CACHE_KEY }}
+          cache-to: type=s3,region=${{ vars.CACHE_REGION }},bucket=${{ vars.CACHE_BUCKET }},name=${{ matrix.tag }},endpoint_url=${{ vars.CACHE_ENDPOINT }},access_key_id=${{ secrets.CACHE_KEY_ID }},secret_access_key=${{ secrets.CACHE_KEY }}
       - name: Build and push Docker image (uncached)
         if: ${{ ! steps.check_s3_secrets.outputs.HAS_BUCKET_KEY }}
         uses: docker/build-push-action@v7
