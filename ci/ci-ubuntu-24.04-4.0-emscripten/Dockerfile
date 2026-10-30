@@ -2,6 +2,9 @@ ARG UBUNTU_VERSION=24.04
 ARG SCCACHE_VERSION=0.10.0
 ARG APT_INSTALL_COMMAND="apt-get install -qy --no-install-recommends"
 ARG EMSDK_VERSION=5.0.2
+# the gr-deps superbuild provides GNU Radio 4's third-party dependencies at the versions gr-core requires
+ARG GR_DEPS_REPOSITORY=https://github.com/gnuradio/gnuradio4-deps.git
+ARG GR_DEPS_REF=d4ba883c9c72723158b764c9efe57088d470cc86
 
 
 FROM ubuntu:${UBUNTU_VERSION} AS sccache-builder
@@ -29,6 +32,8 @@ RUN cargo install \
 FROM ubuntu:${UBUNTU_VERSION}
 ARG APT_INSTALL_COMMAND
 ARG EMSDK_VERSION
+ARG GR_DEPS_REPOSITORY
+ARG GR_DEPS_REF
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV LANG=C.UTF-8 \
@@ -77,6 +82,21 @@ RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-14 140 \
         --slave /usr/bin/g++ g++ /usr/bin/g++-14 \
         --slave /usr/bin/gcov gcov /usr/bin/gcov-14 \
     && update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++-14 140
+
+# The Emscripten toolchain file roots every package search in its sysroot, so the dependencies install there and
+# need no search path. All of them are header-only with architecture-independent package files, so the host compiler
+# configures them.
+RUN . ${EMSDK_HOME}/emsdk_env.sh \
+    && export CC=gcc CXX=g++ \
+    && emscripten_sysroot="$(em-config CACHE)/sysroot" \
+    && git clone ${GR_DEPS_REPOSITORY} /tmp/gr-deps \
+    && git -C /tmp/gr-deps checkout ${GR_DEPS_REF} \
+    && cmake -S /tmp/gr-deps -B /tmp/gr-deps/build -G Ninja \
+        -DCMAKE_INSTALL_PREFIX="${emscripten_sysroot}" \
+        -DENABLE_PYTHON3=OFF \
+    && cmake --build /tmp/gr-deps/build \
+    && chmod -R a+rwX "${emscripten_sysroot}" \
+    && rm -rf /tmp/gr-deps
 
 # Copy over sccache
 COPY --from=sccache-builder /target/bin/sccache /usr/bin/sccache
