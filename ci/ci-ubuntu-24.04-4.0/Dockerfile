@@ -3,7 +3,7 @@ ARG APT_INSTALL_COMMAND="apt-get install -qy --no-install-recommends"
 ARG SCCACHE_VERSION=0.10.0
 # the gr-deps superbuild provides GNU Radio 4's third-party dependencies at the versions gr-core requires
 ARG GR_DEPS_REPOSITORY=https://github.com/gnuradio/gnuradio4-deps.git
-ARG GR_DEPS_REF=d4ba883c9c72723158b764c9efe57088d470cc86
+ARG GR_DEPS_REF=f23ee97613a606c8f70cdd6a40a8ade47e7ce9ad
 
 FROM ubuntu:${UBUNTU_VERSION} AS sccache-builder
 ARG SCCACHE_VERSION
