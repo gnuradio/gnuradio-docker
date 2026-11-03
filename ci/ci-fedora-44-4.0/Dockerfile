@@ -6,7 +6,7 @@ ARG SCCACHE_VERSION=0.10.0
 ARG LIBAD9361_TAG=v0.3
 # the gr-deps superbuild provides GNU Radio 4's third-party dependencies at the versions gr-core requires
 ARG GR_DEPS_REPOSITORY=https://github.com/gnuradio/gnuradio4-deps.git
-ARG GR_DEPS_REF=d4ba883c9c72723158b764c9efe57088d470cc86
+ARG GR_DEPS_REF=f23ee97613a606c8f70cdd6a40a8ade47e7ce9ad
 # ---- sccache takes a while to build (it's rust…) and
 #      quite a bit of space (it's cargo), so:
 # avoid rebuilding if version hasn't changed
