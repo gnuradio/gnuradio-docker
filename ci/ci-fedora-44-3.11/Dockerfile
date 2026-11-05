@@ -82,7 +82,6 @@ RUN ${DNF_COMMAND} install --refresh -y \
 				xdg-utils \
 				xmlto \
 				zeromq-devel \
-      	texlive-newunicodechar \
       && ${DNF_COMMAND} clean all
 # Specific tools not needed for the default build, but things we want to do in CI:
 RUN ${DNF_COMMAND} install --refresh -y \
