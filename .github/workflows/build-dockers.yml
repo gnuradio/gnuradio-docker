@@ -24,6 +24,8 @@ jobs:
             tag: ci-format-and-hash-debian-13-3.x
           - path: ci/ci-debian-i386-12-3.10
             tag: debian-i386-12-3.10
+          - path: ci/ci-debian-i386-14-3.11
+            tag: debian-i386-14-3.11
           - path: ci/ci-debian-12-3.10
             tag: debian-12-3.10
           - path: ci/ci-debian-13-3.10
