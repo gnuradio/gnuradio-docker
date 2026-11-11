@@ -6,7 +6,7 @@ ARG APT_INSTALL_COMMAND="apt-get install -qy --no-install-recommends"
 FROM debian:${DEBIAN_VERSION}
 ARG APT_INSTALL_COMMAND
 LABEL maintainer="mmueller@gnuradio.org"
-ENV security_updates_as_of=2026-06-02
+ENV security_updates_as_of=2026-11-11
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -117,16 +117,7 @@ RUN \
     clang-format \
     # for bundling up results
     squashfs-tools \
-    && apt-get clean \
-    && apt-get autoclean
-
-RUN echo "Types: deb deb-src\nURIs: http://deb.debian.org/debian/\nSuites: sid\nComponents: main\nSigned-By: /usr/share/keyrings/debian-archive-keyring.gpg\n" \
-        > /etc/apt/sources.list.d/sid.sources \
-    && apt update -q \
-    && ${APT_INSTALL_COMMAND} \
-    # for caching
+    # For caching
     sccache \
-    && rm /etc/apt/sources.list.d/sid.sources \
     && apt-get clean \
     && apt-get autoclean
-
