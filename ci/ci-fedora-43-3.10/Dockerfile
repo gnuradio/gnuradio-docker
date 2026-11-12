@@ -75,6 +75,8 @@ RUN ${DNF_COMMAND} build-dep --refresh -y gnuradio \
         libiio-devel \
         # JSON/YAML runtime config GRC blocks
         python3-jsonschema \
+        # GRC tests (grc_tests is only added when pytest is found)
+        python3-pytest \
         # doxygen build (we should fix that with fedora's packaging)
         texlive-newunicodechar \
         && ${DNF_COMMAND} clean all

@@ -69,6 +69,7 @@ RUN ${DNF_COMMAND} install --refresh -y \
 				python3-lxml \
 				python3-mako \
 				python3-numpy \
+				python3-pytest \
 				python3-pyyaml \
 				python3-qt5-devel \
 				python3-scipy \
