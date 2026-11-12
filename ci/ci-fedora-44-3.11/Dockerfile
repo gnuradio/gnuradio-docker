@@ -70,6 +70,7 @@ RUN ${DNF_COMMAND} install --refresh -y \
 				python3-mako \
 				python3-numpy \
 				python3-pyqt6-devel \
+				python3-pytest \
 				python3-pyyaml \
 				python3-scipy \
 				python3-thrift \
