@@ -40,7 +40,6 @@ RUN apt-get update -q \
         bash \
         build-essential \
         ca-certificates \
-        ccache \
         cmake \
         file \
         git \

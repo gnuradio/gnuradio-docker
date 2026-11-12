@@ -48,7 +48,6 @@ RUN apt-get update -q \
         bash \
         bzip2 \
         ca-certificates \
-        ccache \
         cmake \
         file \
         g++-14 \

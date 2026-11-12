@@ -43,7 +43,6 @@ RUN \
   ${APT_INSTALL_COMMAND} \
   appstream-util \
   ca-certificates \
-  ccache \
   clang-format \
   cmake \
   git \
