@@ -5,7 +5,7 @@ This repository, the GNU Radio project keeps the docker containers for the CI th
 
 The organization is such that you find the individual containers in directories below ci/, generally named `distro-distro version-GNU Radio version`.
 
-For the containers that get re-built on PRs and commits to this repo itself, see .github/workflows/build-dockers.yml . When making a PR for a new worker, don't forget to include that in that file!
+For the containers that get re-built on PRs and commits to this repo itself, see .github/workflows/build-dockers.yml . When making a PR for a new worker, don't forget to include that in that file! If the worker is not an amd64 image (like the 32-bit Debian builders, which are based on `i386/debian`), also set `platforms` (e.g., `linux/386`) on its matrix entry, so the published image carries the right platform.
 
 Making PRs
 ----------
