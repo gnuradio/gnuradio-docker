@@ -49,6 +49,8 @@ RUN \
   git \
   lcov \
   pkg-config \
+  # GRC tests (grc_tests is only added when pytest is found)
+  python3-pytest \
   xvfb \
   # for bundling up results
   squashfs-tools \
