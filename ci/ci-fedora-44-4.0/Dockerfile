@@ -36,7 +36,6 @@ ENV LANG=C.UTF-8 \
 RUN ${DNF_COMMAND} update -y \
     && ${DNF_COMMAND} install -y \
         bash \
-        ccache \
         ca-certificates \
         cmake \
         file \
