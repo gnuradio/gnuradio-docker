@@ -120,30 +120,16 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        # Each tag builds from ci/ci-<tag>/Dockerfile.
+        tag: &multiarch-tags
+          - fedora-44-4.0
+          - ubuntu-24.04-4.0
+          - ubuntu-26.04-4.0
+        arch: [amd64, arm64]
         include:
-          - path: ci/ci-fedora-44-4.0
-            tag: fedora-44-4.0
-            arch: amd64
+          - arch: amd64
             runs-on: ubuntu-latest
-          - path: ci/ci-fedora-44-4.0
-            tag: fedora-44-4.0
-            arch: arm64
-            runs-on: ubuntu-24.04-arm
-          - path: ci/ci-ubuntu-24.04-4.0
-            tag: ubuntu-24.04-4.0
-            arch: amd64
-            runs-on: ubuntu-latest
-          - path: ci/ci-ubuntu-24.04-4.0
-            tag: ubuntu-24.04-4.0
-            arch: arm64
-            runs-on: ubuntu-24.04-arm
-          - path: ci/ci-ubuntu-26.04-4.0
-            tag: ubuntu-26.04-4.0
-            arch: amd64
-            runs-on: ubuntu-latest
-          - path: ci/ci-ubuntu-26.04-4.0
-            tag: ubuntu-26.04-4.0
-            arch: arm64
+          - arch: arm64
             runs-on: ubuntu-24.04-arm
     name: ${{ matrix.tag }}-${{ matrix.arch }}
     environment: github-action-autobuild
@@ -179,7 +165,7 @@ jobs:
           tags: |
             gnuradio/ci:${{ matrix.tag }}-${{ matrix.arch }}
             ghcr.io/gnuradio/ci:${{ matrix.tag }}-${{ matrix.arch }}
-          file: ${{ matrix.path }}/Dockerfile
+          file: ci/ci-${{ matrix.tag }}/Dockerfile
           platforms: linux/${{ matrix.arch }}
           cache-from: type=s3,region=${{ vars.CACHE_REGION }},bucket=${{ vars.CACHE_BUCKET }},name=${{ matrix.tag }}-${{ matrix.arch }},endpoint_url=${{ vars.CACHE_ENDPOINT }},access_key_id=${{ secrets.CACHE_KEY_ID }},secret_access_key=${{ secrets.CACHE_KEY }}
           cache-to: type=s3,region=${{ vars.CACHE_REGION }},bucket=${{ vars.CACHE_BUCKET }},name=${{ matrix.tag }}-${{ matrix.arch }},endpoint_url=${{ vars.CACHE_ENDPOINT }},access_key_id=${{ secrets.CACHE_KEY_ID }},secret_access_key=${{ secrets.CACHE_KEY }}
@@ -192,7 +178,7 @@ jobs:
           tags: |
             gnuradio/ci:${{ matrix.tag }}-${{ matrix.arch }}
             ghcr.io/gnuradio/ci:${{ matrix.tag }}-${{ matrix.arch }}
-          file: ${{ matrix.path }}/Dockerfile
+          file: ci/ci-${{ matrix.tag }}/Dockerfile
           platforms: linux/${{ matrix.arch }}
 
   merge-multiarch-manifest:
@@ -205,10 +191,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        tag:
-          - fedora-44-4.0
-          - ubuntu-24.04-4.0
-          - ubuntu-26.04-4.0
+        tag: *multiarch-tags
     name: ${{ matrix.tag }}
     environment: github-action-autobuild
     steps:
