@@ -99,6 +99,8 @@ RUN \
     python3-mako \
     python3-numpy \
     python3-opengl \
+    # GRC Qt GUI (grc/gui_qt/Utils.py imports PyQt6.QtSvg)
+    python3-pyqt6.qtsvg \
     python3-pytest \
     python3-yaml \
     python3-zmq \
