@@ -130,7 +130,6 @@ RUN mv /sbin/sysctl /sbin/sysctl.orig \
        portaudio19-dev \
        pyqt5-dev-tools \
        doxygen \
-       doxygen-latex \
        swig \
     && rm -f /sbin/sysctl \
     && ln -s /usr/bin/ccache /usr/lib/ccache/cc \
