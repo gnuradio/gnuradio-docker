@@ -47,14 +47,8 @@ jobs:
             tag: fedora-44-3.11
           - path: ci/ci-fedora-45-3.11
             tag: fedora-45-3.11
-          - path: ci/ci-fedora-44-4.0
-            tag: fedora-44-4.0
-          - path: ci/ci-ubuntu-24.04-4.0
-            tag: ubuntu-24.04-4.0
           - path: ci/ci-ubuntu-24.04-4.0-emscripten
             tag: ubuntu-24.04-4.0-emscripten
-          - path: ci/ci-ubuntu-26.04-4.0
-            tag: ubuntu-26.04-4.0
           - path: ci/ci-ubuntu-20.04-3.9
             tag: ubuntu-20.04-3.9
           - path: ci/ci-ubuntu-22.04-3.9
@@ -114,3 +108,111 @@ jobs:
             ghcr.io/gnuradio/ci:${{ matrix.tag }}
           file: ${{ matrix.path }}/Dockerfile
           platforms: ${{ matrix.platforms }}
+
+  # The GNU Radio 4 CI images publish for linux/amd64 and linux/arm64. Each
+  # architecture builds natively on its own runner and pushes <tag>-<arch>;
+  # the merge job then writes <tag> as a manifest list of the two.
+  build-and-push-multiarch-image:
+    runs-on: ${{ matrix.runs-on }}
+    permissions:
+      contents: read
+      packages: write
+    strategy:
+      fail-fast: false
+      matrix:
+        # Each tag builds from ci/ci-<tag>/Dockerfile.
+        tag: &multiarch-tags
+          - fedora-44-4.0
+          - ubuntu-24.04-4.0
+          - ubuntu-26.04-4.0
+        arch: [amd64, arm64]
+        include:
+          - arch: amd64
+            runs-on: ubuntu-latest
+          - arch: arm64
+            runs-on: ubuntu-24.04-arm
+    name: ${{ matrix.tag }}-${{ matrix.arch }}
+    environment: github-action-autobuild
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+      - name: Check cache availability
+        id: check_s3_secrets
+        env:
+          S3_CACHE_KEY_ID: ${{ secrets.CACHE_KEY_ID }}
+        run: tools/check_s3_availability.bash "${{ matrix.tag }}-${{ matrix.arch }}"
+      - name: Log in to the Docker Hub Container registry
+        if: ${{ github.event_name != 'pull_request' }}
+        uses: docker/login-action@v4
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Log in to the GitHub Container registry
+        if: ${{ github.event_name != 'pull_request' }}
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push Docker image (cached)
+        if: ${{ steps.check_s3_secrets.outputs.HAS_BUCKET_KEY }}
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: |
+            gnuradio/ci:${{ matrix.tag }}-${{ matrix.arch }}
+            ghcr.io/gnuradio/ci:${{ matrix.tag }}-${{ matrix.arch }}
+          file: ci/ci-${{ matrix.tag }}/Dockerfile
+          platforms: linux/${{ matrix.arch }}
+          cache-from: type=s3,region=${{ vars.CACHE_REGION }},bucket=${{ vars.CACHE_BUCKET }},name=${{ matrix.tag }}-${{ matrix.arch }},endpoint_url=${{ vars.CACHE_ENDPOINT }},access_key_id=${{ secrets.CACHE_KEY_ID }},secret_access_key=${{ secrets.CACHE_KEY }}
+          cache-to: type=s3,region=${{ vars.CACHE_REGION }},bucket=${{ vars.CACHE_BUCKET }},name=${{ matrix.tag }}-${{ matrix.arch }},endpoint_url=${{ vars.CACHE_ENDPOINT }},access_key_id=${{ secrets.CACHE_KEY_ID }},secret_access_key=${{ secrets.CACHE_KEY }}
+      - name: Build and push Docker image (uncached)
+        if: ${{ ! steps.check_s3_secrets.outputs.HAS_BUCKET_KEY }}
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: |
+            gnuradio/ci:${{ matrix.tag }}-${{ matrix.arch }}
+            ghcr.io/gnuradio/ci:${{ matrix.tag }}-${{ matrix.arch }}
+          file: ci/ci-${{ matrix.tag }}/Dockerfile
+          platforms: linux/${{ matrix.arch }}
+
+  merge-multiarch-manifest:
+    needs: build-and-push-multiarch-image
+    if: ${{ github.event_name != 'pull_request' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    strategy:
+      fail-fast: false
+      matrix:
+        tag: *multiarch-tags
+    name: ${{ matrix.tag }}
+    environment: github-action-autobuild
+    steps:
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+      - name: Log in to the Docker Hub Container registry
+        uses: docker/login-action@v4
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Log in to the GitHub Container registry
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Write the multi-platform tag
+        env:
+          TAG: ${{ matrix.tag }}
+        run: |
+          for image in gnuradio/ci ghcr.io/gnuradio/ci; do
+            docker buildx imagetools create --tag "${image}:${TAG}" \
+              "${image}:${TAG}-amd64" "${image}:${TAG}-arm64"
+          done
