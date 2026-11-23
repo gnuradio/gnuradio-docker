@@ -4,6 +4,7 @@ ARG DNF_COMMAND="dnf --setopt=install_weak_deps=False -q"
 # Fedora >=43 has sccache, but none with S3 storage support
 ARG SCCACHE_VERSION=0.19.0
 ARG LIBAD9361_TAG=v0.3
+
 # the gr-deps superbuild provides GNU Radio 4's third-party dependencies at the versions gr-core requires
 ARG GR_DEPS_REPOSITORY=https://github.com/gnuradio/gnuradio4-deps.git
 ARG GR_DEPS_REF=f23ee97613a606c8f70cdd6a40a8ade47e7ce9ad
@@ -28,6 +29,7 @@ RUN cargo install \
         && rm -rf /build
 
 FROM fedora:${FEDORA_VERSION}
+ENV security_updates_as_of=2026-11-23
 ARG DNF_COMMAND
 ARG GR_DEPS_REPOSITORY
 ARG GR_DEPS_REF

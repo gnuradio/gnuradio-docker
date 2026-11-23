@@ -5,7 +5,7 @@ ARG APT_INSTALL_COMMAND="apt-get install -qy --no-install-recommends"
 FROM ubuntu:${UBUNTU_VERSION}
 ARG APT_INSTALL_COMMAND
 LABEL maintainer="haakonsv@gmail.com"
-ENV security_updates_as_of=2026-08-23
+ENV security_updates_as_of=2026-11-23
 
 ENV DEBIAN_FRONTEND=noninteractive
 
