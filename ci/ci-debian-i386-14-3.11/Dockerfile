@@ -6,7 +6,7 @@ ARG APT_INSTALL_COMMAND="apt-get install -qy --no-install-recommends"
 FROM i386/debian:${DEBIAN_VERSION}
 ARG APT_INSTALL_COMMAND
 LABEL maintainer="mmueller@gnuradio.org"
-ENV security_updates_as_of=2026-11-08
+ENV security_updates_as_of=2026-11-23
 
 ENV DEBIAN_FRONTEND=noninteractive
 

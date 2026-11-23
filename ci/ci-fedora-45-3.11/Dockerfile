@@ -5,7 +5,6 @@ ARG FEDORA_VERSION=45
 # allow only openssl <= 3, and 45 has 4.x
 ARG SCCACHE_VERSION=0.19.0
 
-
 ARG DNF_COMMAND="dnf --setopt=install_weak_deps=False -q"
 # ---- sccache takes a while to build (it's rust…) and
 #      quite a bit of space (it's cargo), so:
@@ -31,7 +30,7 @@ RUN cargo install \
 
 # ---- MAIN CONTAINER ----
 FROM fedora:${FEDORA_VERSION}
-
+ENV security_updates_as_of=2026-11-23
 ARG DNF_COMMAND
 LABEL maintainer="mmueller@gnuradio.org"
 # Make sure we don't try to use XCB, which seems to be very b0rked at this point
