@@ -64,6 +64,7 @@ RUN apt-get update -q \
         ninja-build \
         nodejs \
         npm \
+        patch \
         python3 \
         xz-utils \
     && apt-get clean \
