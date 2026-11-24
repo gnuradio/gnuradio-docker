@@ -55,6 +55,7 @@ RUN ${DNF_COMMAND} update -y \
         lsb_release \
         make \
         ninja-build \
+        patch \
         pkgconf-pkg-config \
         python3 \
         python3-devel \
