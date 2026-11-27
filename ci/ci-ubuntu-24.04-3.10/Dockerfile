@@ -48,6 +48,7 @@ RUN \
   cmake \
   git \
   lcov \
+  nlohmann-json3-dev \
   pkg-config \
   # GRC tests (grc_tests is only added when pytest is found)
   python3-pytest \
