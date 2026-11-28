@@ -65,6 +65,7 @@ RUN apt-get update -q \
         nodejs \
         npm \
         patch \
+        pkg-config \
         python3 \
         xz-utils \
     && apt-get clean \
