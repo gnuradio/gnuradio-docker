@@ -49,6 +49,11 @@ RUN \
   git \
   lcov \
   pkg-config \
+  # GRC Qt GUI on main (grc/gui_qt imports PyQt6, PyQt6.QtSvg, and PyQt6.uic
+  # from pyqt6-dev-tools); build-dep gnuradio only brings in PyQt5
+  pyqt6-dev-tools \
+  python3-pyqt6 \
+  python3-pyqt6.qtsvg \
   # GRC tests (grc_tests is only added when pytest is found)
   python3-pytest \
   xvfb \
