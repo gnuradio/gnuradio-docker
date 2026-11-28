@@ -107,6 +107,8 @@ RUN \
     libzmq5 \
     portaudio19-dev \
     pyqt5-dev-tools \
+    # ships PyQt6.uic, which the GRC Qt GUI on main imports
+    pyqt6-dev-tools \
     qtbase5-dev \
     && apt-get clean \
     && apt-get autoclean
@@ -125,6 +127,9 @@ RUN \
     python3-numpy \
     python3-opengl \
     python3-pyqt5 \
+    # GRC Qt GUI on main (grc/gui_qt imports PyQt6 and PyQt6.QtSvg)
+    python3-pyqt6 \
+    python3-pyqt6.qtsvg \
     python3-pytest \
     python3-yaml \
     python3-zmq \
